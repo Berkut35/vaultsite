@@ -40,3 +40,4 @@ tsc_errors.txt
 
 # Vercel
 .vercel
+.claude/
