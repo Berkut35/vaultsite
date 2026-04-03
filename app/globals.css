@@ -1,0 +1,173 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap');
+
+/* ── Design Tokens ───────────────────────────────────────────────────────────── */
+:root {
+  --bg-primary:     #050505;
+  --bg-surface:     #0a0a0a;
+  --bg-elevated:    #111111;
+  --border-subtle:  rgba(255,255,255,0.06);
+  --border-gold:    rgba(251,191,36,0.25);
+  --border-purple:  rgba(168,85,247,0.3);
+  --accent-purple:  #A855F7;
+  --accent-gold:    #FBBF24;
+  --text-primary:   #F0F0F0;
+  --text-secondary: #888888;
+  --text-muted:     #444444;
+
+  /* Legacy aliases — keeps AuthModal working unchanged */
+  --bg:          var(--bg-primary);
+  --surface:     var(--bg-surface);
+  --card:        var(--bg-elevated);
+  --card-hover:  #161616;
+  --border:      var(--border-subtle);
+  --border-md:   rgba(255,255,255,0.10);
+  --text:        var(--text-primary);
+  --muted:       var(--text-secondary);
+  --muted-lg:    #666666;
+  --accent:      var(--accent-purple);
+  --accent-dim:  rgba(168,85,247,0.12);
+  --accent-glow: rgba(168,85,247,0.18);
+
+  /* Border radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+}
+
+/* ── Reset ───────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar               { width: 5px; height: 5px; }
+::-webkit-scrollbar-track         { background: transparent; }
+::-webkit-scrollbar-thumb         { background: rgba(148,163,184,0.12); border-radius: 100px; }
+::-webkit-scrollbar-thumb:hover   { background: rgba(148,163,184,0.28); }
+
+/* ── Selection ───────────────────────────────────────────────────────────────── */
+::selection { background: rgba(168,85,247,0.22); color: #fff; }
+
+/* ── Focus ───────────────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid rgba(168,85,247,0.55);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Glass card ──────────────────────────────────────────────────────────────── */
+.glass-card {
+  background: rgba(255,255,255,0.02);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ── Noise overlay ───────────────────────────────────────────────────────────── */
+.noise-overlay {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0; opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+/* ── CTA shimmer ─────────────────────────────────────────────────────────────── */
+@keyframes shimmer-slide {
+  0%   { transform: translateX(-200%); }
+  100% { transform: translateX(500%); }
+}
+
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  animation: shimmer-slide 3s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+/* ── Bento card spotlight ────────────────────────────────────────────────────── */
+.bento-card {
+  position: relative;
+  transition: border-color 0.3s ease, transform 0.2s ease;
+}
+
+.bento-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(168,85,247,0.3) !important;
+}
+
+.bento-spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(
+    200px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(168,85,247,0.07),
+    transparent 70%
+  );
+}
+
+.bento-card:hover .bento-spotlight {
+  opacity: 1;
+}
+
+/* ── Section divider ─────────────────────────────────────────────────────────── */
+.divider-line {
+  transform-origin: left;
+}
+
+/* ── DM Serif Display — testimonials only ────────────────────────────────────── */
+.font-serif-display {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+}
+
+/* ── Legacy utilities (AuthModal, old components) ────────────────────────────── */
+.rounded-card  { border-radius: 14px; }
+.rounded-modal { border-radius: 18px; }
+
+/* ── Accordion open animation ────────────────────────────────────────────────── */
+@keyframes accordion-open {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Float animation ─────────────────────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(1deg); }
+  50%       { transform: translateY(-8px) rotate(1deg); }
+}
+
+/* ── Count-up ────────────────────────────────────────────────────────────────── */
+@keyframes fade-up-sm {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
