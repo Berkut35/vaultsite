@@ -78,13 +78,6 @@ export async function resolveDownloadUrl(): Promise<DownloadTarget | null> {
     // fall through to env var fallback
   }
 
-  // Env var fallback (set in .env.local / Vercel env)
-  const fallbackUrl = process.env.NEXT_PUBLIC_DOWNLOAD_URL;
-  if (fallbackUrl && fallbackUrl !== '#') {
-    const filename = fallbackUrl.split('/').pop() ?? 'Vault-setup.exe';
-    return { url: fallbackUrl, filename, os, version: 'latest' };
-  }
-
   return null;
 }
 

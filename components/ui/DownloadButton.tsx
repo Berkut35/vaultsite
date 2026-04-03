@@ -24,13 +24,12 @@ export function DownloadButton({ children, style, className = '' }: DownloadButt
     try {
       const target = await resolveDownloadUrl();
       if (target) {
-        triggerBrowserDownload(target.url, target.filename);
-      } else {
-        // No release yet — send to GitHub releases page as fallback
-        window.open(`https://github.com/Berkut35/vault-releases/releases`, '_blank', 'noopener,noreferrer');
+        // For cross-origin URLs (GitHub), navigate directly — anchor.download
+        // only works for same-origin. window.location keeps the tab.
+        window.location.href = target.url;
       }
+      // If no release exists yet, do nothing — button just resets
     } finally {
-      // Keep loading for 1.5 s so the user sees feedback
       setTimeout(() => setLoading(false), 1500);
     }
   }
