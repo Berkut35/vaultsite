@@ -7,6 +7,7 @@ import { AuthModal } from '../AuthModal';
 import { useLang } from '@/lib/i18n';
 import type { Lang } from '@/lib/i18n';
 import { getSupabase, getUserWithPlan, isPaidPlan } from '@/lib/supabase';
+import { DownloadButton } from '@/components/ui/DownloadButton';
 import type { UserWithPlan, PlanType } from '@/lib/supabase';
 import type { User } from '@supabase/supabase-js';
 
@@ -451,14 +452,11 @@ export function Navbar() {
                 >
                   {n.signin}
                 </button>
-                <a
-                  href="#pricing"
-                  style={{ padding: '7px 18px', borderRadius: 999, fontSize: 13.5, fontWeight: 600, color: '#fff', background: '#A855F7', textDecoration: 'none', transition: 'opacity 0.2s ease, transform 0.2s ease', fontFamily: '"DM Sans", sans-serif', letterSpacing: '-0.01em' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.88'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1'; (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}
+                <DownloadButton
+                  style={{ padding: '7px 18px', borderRadius: 999, fontSize: 13.5, fontWeight: 600, color: '#fff', background: '#A855F7', fontFamily: '"DM Sans", sans-serif', letterSpacing: '-0.01em' }}
                 >
                   {n.startFree}
-                </a>
+                </DownloadButton>
               </>
             )}
           </div>
@@ -541,11 +539,11 @@ export function Navbar() {
                   >
                     {n.signin}
                   </button>
-                  <a href="#pricing" onClick={() => setMobileOpen(false)}
-                    style={{ margin: '4px 6px 0', padding: '10px 14px', borderRadius: 8, fontSize: 14, fontWeight: 600, color: '#fff', background: '#A855F7', textDecoration: 'none', textAlign: 'center', fontFamily: '"DM Sans", sans-serif' }}
+                  <DownloadButton
+                    style={{ margin: '4px 6px 0', padding: '10px 14px', borderRadius: 8, fontSize: 14, fontWeight: 600, color: '#fff', background: '#A855F7', textAlign: 'center', fontFamily: '"DM Sans", sans-serif', justifyContent: 'center', width: 'calc(100% - 12px)' }}
                   >
                     {n.startFree}
-                  </a>
+                  </DownloadButton>
                 </>
               )}
             </motion.div>

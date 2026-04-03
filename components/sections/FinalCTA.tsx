@@ -1,8 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { MagneticButton } from '@/components/ui/MagneticButton';
-import { useLang }        from '@/lib/i18n';
+import { MagneticButton }  from '@/components/ui/MagneticButton';
+import { DownloadButton }  from '@/components/ui/DownloadButton';
+import { useLang }         from '@/lib/i18n';
 
 export function FinalCTA() {
   const { t } = useLang();
@@ -36,11 +37,11 @@ export function FinalCTA() {
         <motion.div initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.5, delay: 0.22, ease: 'easeOut' }}
           style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}
         >
-          <MagneticButton href="#pricing"
-            style={{ padding: '14px 32px', borderRadius: 999, background: '#A855F7', color: '#fff', fontSize: 15, fontWeight: 600, textDecoration: 'none', letterSpacing: '-0.01em', fontFamily: '"DM Sans", sans-serif', boxShadow: '0 4px 24px rgba(168,85,247,0.20)', display: 'inline-block' } as React.CSSProperties}
+          <DownloadButton
+            style={{ padding: '14px 32px', borderRadius: 999, background: '#A855F7', color: '#fff', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', fontFamily: '"DM Sans", sans-serif', boxShadow: '0 4px 24px rgba(168,85,247,0.20)' }}
           >
             {c.primaryBtn}
-          </MagneticButton>
+          </DownloadButton>
 
           <a href={process.env.NEXT_PUBLIC_DOWNLOAD_URL ?? '#'}
             style={{ padding: '14px 28px', borderRadius: 999, color: 'var(--text-secondary)', fontSize: 15, fontWeight: 400, textDecoration: 'none', border: '1px solid var(--border-subtle)', fontFamily: '"DM Sans", sans-serif', transition: 'color 0.2s ease, border-color 0.2s ease' }}

@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import { MagneticButton } from '@/components/ui/MagneticButton';
+import { MagneticButton }  from '@/components/ui/MagneticButton';
+import { DownloadButton }  from '@/components/ui/DownloadButton';
 import { AppMockup } from '@/components/AppMockup';
 import { useLang }        from '@/lib/i18n';
 
@@ -60,11 +61,11 @@ export function Hero() {
             <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5, ease: 'easeOut' }}
               style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', marginBottom: 28 }}
             >
-              <MagneticButton href="#pricing"
-                style={{ padding: '13px 28px', borderRadius: 999, background: '#A855F7', color: '#fff', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', textDecoration: 'none', fontFamily: '"DM Sans", sans-serif', boxShadow: '0 4px 24px rgba(168,85,247,0.22)', transition: 'opacity 0.2s ease', display: 'inline-block' } as React.CSSProperties}
+              <DownloadButton
+                style={{ padding: '13px 28px', borderRadius: 999, background: '#A855F7', color: '#fff', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', fontFamily: '"DM Sans", sans-serif', boxShadow: '0 4px 24px rgba(168,85,247,0.22)' }}
               >
                 {h.primaryCta}
-              </MagneticButton>
+              </DownloadButton>
 
               <a href={process.env.NEXT_PUBLIC_DOWNLOAD_URL ?? '#'}
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '13px 20px', borderRadius: 999, color: 'var(--text-secondary)', fontSize: 15, fontWeight: 400, textDecoration: 'none', fontFamily: '"DM Sans", sans-serif', border: '1px solid var(--border-subtle)', transition: 'color 0.2s ease, border-color 0.2s ease' }}
