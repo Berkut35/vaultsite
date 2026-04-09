@@ -22,6 +22,11 @@ export function HowItWorks() {
     70%  { box-shadow: 0 0 0 10px rgba(168,85,247,0); }
     100% { box-shadow: 0 0 0 0 rgba(168,85,247,0); }
   }
+  @media (prefers-reduced-motion: reduce) {
+    @keyframes badgePulse {
+      0%, 100% { box-shadow: none; }
+    }
+  }
 `}} />
       <div style={{ maxWidth: '72rem', margin: '0 auto' }}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.55, ease: 'easeOut' }} style={{ textAlign: 'center', marginBottom: 72 }}>
@@ -46,7 +51,7 @@ export function HowItWorks() {
             }}
             initial={{ scaleX: 0 }}
             animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
+            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.6 }}
           />
 
           {h.steps.map((step, i) => {
