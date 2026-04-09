@@ -34,15 +34,15 @@ export function CookieBanner() {
     desc: "Vault'un site performansını analiz etmesi için çerezleri (cookies) kullanıyoruz. Yerel öncelikli gizlilik ilkemiz gereği araştırmalarınız veya dosyalarınız asla takip edilmez.",
     accept: "Tümünü Kabul Et",
     essential: "Yalnızca Gerekli Olanlar",
-    linkText: "Gizlilik Politikası",
-    linkHref: "/tr/legal/privacy"
+    linkText: "Çerez Politikası",
+    linkHref: "/tr/legal/cookies"
   } : {
     title: "We Value Your Privacy",
     desc: "We use cookies to analyze site traffic and performance. Keeping with our local-first ethos, your research databases and documents are never tracked.",
     accept: "Accept All",
     essential: "Essential Only",
-    linkText: "Privacy Policy",
-    linkHref: "/en/legal/privacy"
+    linkText: "Cookie Policy",
+    linkHref: "/en/legal/cookies"
   };
 
   return (
