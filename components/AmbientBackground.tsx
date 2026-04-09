@@ -9,9 +9,14 @@ export function AmbientBackground() {
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     setReducedMotion(mq.matches);
-    const handler = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handler, { passive: true });
-    return () => window.removeEventListener('scroll', handler);
+    const motionHandler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener('change', motionHandler);
+    const scrollHandler = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', scrollHandler, { passive: true });
+    return () => {
+      mq.removeEventListener('change', motionHandler);
+      window.removeEventListener('scroll', scrollHandler);
+    };
   }, []);
 
   const orb1Y = reducedMotion ? 0 : scrollY * -0.10;
