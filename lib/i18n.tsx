@@ -360,6 +360,8 @@ export const translations = {
       signingIn:       'Signing in…',
       creatingAccount: 'Creating account…',
       errorGeneric:    'Something went wrong. Please try again.',
+      termsError:      'Please accept the terms and conditions to continue.',
+      termsLabel:      'I have read and understood the [Terms of Service], [Privacy Policy], and [KVKK].',
     },
   },
 
@@ -719,6 +721,8 @@ export const translations = {
       signingIn:       'Giriş yapılıyor…',
       creatingAccount: 'Hesap oluşturuluyor…',
       errorGeneric:    'Bir şeyler ters gitti. Lütfen tekrar deneyin.',
+      termsError:      'Devam etmek için kullanım koşullarını kabul etmelisiniz.',
+      termsLabel:      '[Kullanım Koşulları], [Gizlilik Sözleşmesi] ve [KVKK] metinlerini okudum, anladım.',
     },
   },
 } as const;

@@ -23,6 +23,7 @@ export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModal
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState('');
   const [success, setSuccess] = useState('');
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const reset = () => { setError(''); setSuccess(''); };
 
@@ -32,6 +33,12 @@ export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModal
     reset();
 
     const sb = getSupabase();
+
+    if (mode === 'signup' && !termsAccepted) {
+      setError(a.termsError);
+      setLoading(false);
+      return;
+    }
 
     try {
       if (mode === 'signin') {
@@ -243,6 +250,36 @@ export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModal
                     onFocus={onFocus} onBlur={onBlur}
                   />
                 </div>
+
+                {mode === 'signup' && (
+                  <div className="flex items-start gap-2 px-1 py-1">
+                    <div className="relative flex items-center h-5">
+                      <input
+                        type="checkbox"
+                        checked={termsAccepted}
+                        onChange={(e) => setTermsAccepted(e.target.checked)}
+                        className="w-3.5 h-3.5 rounded border-vault-border bg-white/5 text-accent-purple focus:ring-accent-purple/50 cursor-pointer accent-purple-500"
+                        id="terms"
+                      />
+                    </div>
+                    <label htmlFor="terms" className="text-[11px] leading-snug cursor-pointer select-none" style={{ color: 'var(--muted)' }}>
+                      {lang === 'tr' ? (
+                        <>
+                          <a href="/tr/legal/terms" target="_blank" className="text-blue-400 underline hover:text-accent-purple transition-colors">Kullanım Koşulları</a>,{' '}
+                          <a href="/tr/legal/privacy" target="_blank" className="text-blue-400 underline hover:text-accent-purple transition-colors">Gizlilik Sözleşmesi</a> ve{' '}
+                          <a href="/tr/legal/kvkk" target="_blank" className="text-blue-400 underline hover:text-accent-purple transition-colors">KVKK</a> metinlerini okudum, anladım.
+                        </>
+                      ) : (
+                        <>
+                          I have read and understood the{' '}
+                          <a href="/en/legal/terms" target="_blank" className="text-blue-400 underline hover:text-accent-purple transition-colors">Terms of Service</a>,{' '}
+                          <a href="/en/legal/privacy" target="_blank" className="text-blue-400 underline hover:text-accent-purple transition-colors">Privacy Policy</a>, and{' '}
+                          <a href="/en/legal/kvkk" target="_blank" className="text-blue-400 underline hover:text-accent-purple transition-colors">KVKK</a>.
+                        </>
+                      )}
+                    </label>
+                  </div>
+                )}
 
                 {mode === 'signin' && (
                   <div className="text-right -mt-1">
