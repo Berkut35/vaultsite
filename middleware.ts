@@ -5,16 +5,21 @@ import { createServerClient } from '@supabase/ssr';
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
 
-  // --- Language detection ---
-  const langCookie = request.cookies.get('vault-lang')?.value;
-  if (!langCookie) {
+  // --- Language detection & Routing ---
+  const { pathname } = request.nextUrl;
+  const pathnameHasLocale = pathname.startsWith('/en') || pathname.startsWith('/tr');
+
+  if (!pathnameHasLocale && pathname !== '/sitemap.xml' && pathname !== '/robots.txt') {
+    const langCookie = request.cookies.get('vault-lang')?.value;
     const acceptLang = request.headers.get('accept-language') ?? '';
-    const detected = acceptLang.toLowerCase().startsWith('tr') ? 'tr' : 'en';
-    response.cookies.set('vault-lang', detected, {
-      maxAge: 60 * 60 * 24 * 365,
-      path: '/',
-      sameSite: 'lax',
-    });
+    const detected = langCookie === 'tr' || langCookie === 'en' 
+      ? langCookie 
+      : acceptLang.toLowerCase().startsWith('tr') ? 'tr' : 'en';
+
+    request.nextUrl.pathname = `/${detected}${pathname}`;
+    const redirectResponse = NextResponse.redirect(request.nextUrl);
+    redirectResponse.cookies.set('vault-lang', detected, { maxAge: 60 * 60 * 24 * 365, path: '/', sameSite: 'lax' });
+    return redirectResponse;
   }
 
   // --- Supabase session refresh ---

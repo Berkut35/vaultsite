@@ -733,8 +733,8 @@ const Ctx = createContext<LanguageCtx>({
   setLang: () => {},
 });
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Lang>('en');
+export function LanguageProvider({ children, initialLang }: { children: React.ReactNode, initialLang?: Lang }) {
+  const [lang, setLangState] = useState<Lang>(initialLang || 'en');
 
   useEffect(() => {
     const cookieLang = document.cookie
@@ -743,13 +743,19 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       ?.split('=')[1] as Lang | undefined;
 
     const navLang = navigator.language.toLowerCase().startsWith('tr') ? 'tr' : 'en';
-    const detected = (cookieLang === 'tr' || cookieLang === 'en') ? cookieLang : navLang;
-    setLangState(detected);
-  }, []);
+    const detected = initialLang || (cookieLang === 'tr' || cookieLang === 'en' ? cookieLang : navLang);
+    if (!initialLang && detected !== lang) {
+      setLangState(detected);
+    }
+  }, [initialLang]);
 
   const setLang = (l: Lang) => {
     setLangState(l);
     document.cookie = `vault-lang=${l}; max-age=${60 * 60 * 24 * 365}; path=/; samesite=lax`;
+    // Force a navigation to the correct URL route:
+    if (typeof window !== 'undefined') {
+      window.location.href = `/${l}`;
+    }
   };
 
   return (
