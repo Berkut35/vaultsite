@@ -2,6 +2,8 @@
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { Twitter, Github, Linkedin } from 'lucide-react';
+import { useLang } from '@/lib/i18n';
 
 export function Footer() {
   const { t, lang } = useLang();

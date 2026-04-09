@@ -4,7 +4,7 @@ import { getMarkdownDocument, getAllDocumentSlugs } from '@/lib/markdown';
 import ReactMarkdown from 'react-markdown';
 import { Metadata } from 'next';
 import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/sections/Footer';
+import { Footer } from '@/components/layout/Footer';
 
 interface PageProps {
   params: Promise<{ lang: string; slug: string }>;

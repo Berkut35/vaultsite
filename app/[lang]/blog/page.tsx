@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/sections/Footer';
+import { Footer } from '@/components/layout/Footer';
 import { getAllDocumentSlugs, getMarkdownDocument } from '@/lib/markdown';
 
 interface PageProps {
