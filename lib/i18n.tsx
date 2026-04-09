@@ -130,7 +130,7 @@ export const translations = {
       title: 'Trusted by researchers at leading institutions.',
       items: [
         {
-          quote:       'Vault is the first tool that actually handles the complexity of a longitudinal study. I had over 300 sources across six years of fieldwork, and for the first time I could see how they all connected. The knowledge graph alone is worth every penny.',
+          quote:       "I had over 300 sources across six years of longitudinal fieldwork. Vault's knowledge graph was the first tool that let me see — and show my committee — how every source connected to my central argument. My defense was stronger because of it.",
           name:        'Dr. Sarah Chen',
           role:        'Associate Professor of Sociology',
           institution: 'Stanford University',
@@ -138,7 +138,7 @@ export const translations = {
           avatar:      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200&h=200',
         },
         {
-          quote:       'The note-linking system changed how I write. I used to lose half my reading time trying to remember where I had noted something. Now every idea connects back to its source instantly. My thesis committee has noticed the improvement.',
+          quote:       'Note-linking removed the single biggest bottleneck in my writing process. I no longer spend hours hunting for the source behind a half-remembered idea. Every annotation is one click from its original context, and my supervisor has commented on how my arguments are better-evidenced now.',
           name:        'Marcus Holt',
           role:        'PhD Candidate in History',
           institution: 'University of Cambridge',
@@ -146,12 +146,21 @@ export const translations = {
           avatar:      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200&h=200',
         },
         {
-          quote:       'During fieldwork in regions with no connectivity, Vault was the only tool that never let me down. Everything worked offline, perfectly. Coming back to a fully synced, structured archive of my annotations was something I had never experienced before.',
+          quote:       'I ran 18 months of fieldwork in regions with intermittent connectivity. Vault never missed a beat — everything worked offline, and when I returned to a network, my entire annotated archive was intact and ready. No other tool in my workflow even attempted this.',
           name:        'Prof. Elif Yıldız',
           role:        'Computational Linguistics',
           institution: 'Middle East Technical University',
           initials:    'EY',
           avatar:      'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200&h=200',
+        },
+        {
+          quote:       "I supervise twelve PhD students, each with their own sprawling corpus of sources. Vault's reading groups let me see exactly where each student is in their literature review, annotate directly on their sources, and keep our group's shared bibliography synchronized — without a single email chain. It has genuinely changed how I run a research lab.",
+          name:        'Prof. Arjun Mehta',
+          role:        'Research Group Lead, Dept. of Computer Science',
+          institution: 'Indian Institute of Technology Delhi',
+          initials:    'AM',
+          avatar:      null,
+          featured:    true,
         },
       ],
     },
@@ -538,7 +547,7 @@ export const translations = {
       title: 'Önde gelen kurumlardaki araştırmacıların güveni.',
       items: [
         {
-          quote:       "Vault, boylamsal bir çalışmanın karmaşıklığını gerçekten ele alan ilk araçtır. Altı yıllık saha çalışmasında 300'den fazla kaynağım vardı ve ilk kez hepsinin nasıl bağlandığını görebildim. Tek başına bilgi grafiği her kuruşa değer.",
+          quote:       "6 yıllık boylamsal saha araştırmamdan 300'ü aşkın kaynağım vardı. Vault'ın bilgi grafiği, her kaynağın merkezi argümanımla nasıl bağlandığını hem benim görmemi hem de komiteme göstermemi sağlayan ilk araç oldu. Savunmam bu sayede çok daha güçlüydü.",
           name:        'Dr. Sarah Chen',
           role:        'Sosyoloji Doçenti',
           institution: 'Stanford Üniversitesi',
@@ -546,7 +555,7 @@ export const translations = {
           avatar:      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200&h=200',
         },
         {
-          quote:       'Not bağlama sistemi yazmam konusundaki bakış açımı tamamen değiştirdi. Bir şeyi nerede not ettiğimi hatırlamaya çalışarak okuma zamanımın yarısını harcardım. Artık her fikir anında kaynağına bağlanıyor. Tez komitem gelişimi fark etti.',
+          quote:       'Not bağlama özelliği, yazma sürecimdeki en büyük darboğazı ortadan kaldırdı. Artık aklımın köşesinde kalan bir fikrin kaynağını saatlerce aramıyorum. Her alıntı, orijinal bağlamına tek tıkla ulaşılabilir durumda; danışmanım argümanlarımın artık daha iyi desteklendiğini söylüyor.',
           name:        'Marcus Holt',
           role:        'Tarih Doktora Adayı',
           institution: 'Cambridge Üniversitesi',
@@ -554,12 +563,21 @@ export const translations = {
           avatar:      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200&h=200',
         },
         {
-          quote:       "Bağlantısız bölgelerde saha çalışması sırasında Vault beni hiç hayal kırıklığına uğratmayan tek araçtı. Her şey çevrimdışı, mükemmel çalıştı. Notlarımın tam senkronize, yapılandırılmış bir arşivine dönmek daha önce hiç yaşamadığım bir şeydi.",
+          quote:       '18 ay boyunca internet bağlantısının kesintili olduğu bölgelerde saha çalışması yürüttüm. Vault hiç aksatmadı — her şey çevrimdışı çalıştı; ağa döndüğümde tüm notlu arşivim eksiksiz ve kullanıma hazırdı. Çalışma akışımdaki başka hiçbir araç bunu denemeye bile kalkışmadı.',
           name:        'Prof. Elif Yıldız',
           role:        'Hesaplamalı Dilbilim',
           institution: 'Orta Doğu Teknik Üniversitesi',
           initials:    'EY',
           avatar:      'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200&h=200',
+        },
+        {
+          quote:       "On iki doktora öğrencisine danışmanlık yapıyorum; her birinin kendi geniş kaynak külliyatı var. Vault'ın okuma grupları her öğrencinin literatür taramasında tam olarak nerede olduğunu görmemi, doğrudan kaynaklarına not düşmemi ve grubumuzun ortak kaynakçasını tek bir e-posta zinciri olmadan senkronize tutmamı sağlıyor. Bir araştırma laboratuvarını yönetme biçimimi gerçekten değiştirdi.",
+          name:        'Prof. Arjun Mehta',
+          role:        'Araştırma Grubu Lideri, Bilgisayar Müh. Bölümü',
+          institution: 'Hindistan Teknoloji Enstitüsü Delhi',
+          initials:    'AM',
+          avatar:      null,
+          featured:    true,
         },
       ],
     },
