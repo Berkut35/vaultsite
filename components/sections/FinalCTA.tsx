@@ -10,7 +10,43 @@ export function FinalCTA() {
   const c = t.finalCta;
 
   return (
-    <section id="cta" style={{ padding: 'clamp(80px, 12vw, 160px) 24px', background: '#0d0d0d', borderTop: '1px solid var(--border-subtle)', textAlign: 'center', position: 'relative', overflow: 'hidden' }} aria-labelledby="cta-heading">
+    <section
+      id="cta"
+      style={{
+        padding: 'clamp(80px, 12vw, 160px) 24px',
+        background: '#0d0d0d',
+        backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)',
+        backgroundSize: '24px 24px',
+        textAlign: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+      aria-labelledby="cta-heading"
+    >
+      {/* Gradient üst border */}
+      <div aria-hidden="true" style={{
+        position: 'absolute',
+        top: 0, left: 0, right: 0,
+        height: 1,
+        background: 'linear-gradient(90deg, transparent 0%, rgba(168,85,247,0.5) 30%, rgba(251,191,36,0.35) 70%, transparent 100%)',
+      }} />
+
+      {/* Radial glow 1 — mor, altta ortalı */}
+      <div aria-hidden="true" style={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        background: 'radial-gradient(ellipse 60% 50% at 50% 100%, rgba(168,85,247,0.14), transparent)',
+      }} />
+
+      {/* Radial glow 2 — altın, sağ üstte */}
+      <div aria-hidden="true" style={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        background: 'radial-gradient(ellipse 30% 40% at 78% 18%, rgba(251,191,36,0.07), transparent)',
+      }} />
+
       <div style={{ maxWidth: '640px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <motion.p initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.5, ease: 'easeOut' }}
           style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 24, fontFamily: '"DM Sans", sans-serif' }}
