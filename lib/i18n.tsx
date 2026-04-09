@@ -311,9 +311,9 @@ export const translations = {
         {
           title: 'Resources',
           links: [
-            { label: 'Documentation',     href: '#' },
+            { label: 'Documentation',     href: '/en/docs' },
             { label: 'API',               href: '#' },
-            { label: 'Blog',              href: '#' },
+            { label: 'Blog',              href: '/en/blog' },
             { label: 'Research Templates',href: '#' },
           ],
         },
@@ -321,8 +321,8 @@ export const translations = {
           title: 'Company',
           links: [
             { label: 'About',   href: '#' },
-            { label: 'Privacy', href: '#' },
-            { label: 'Terms',   href: '#' },
+            { label: 'Privacy', href: '/en/legal/privacy' },
+            { label: 'Terms',   href: '/en/legal/terms' },
             { label: 'Contact', href: '#' },
           ],
         },
@@ -669,9 +669,9 @@ export const translations = {
         {
           title: 'Kaynaklar',
           links: [
-            { label: 'Belgeler',              href: '#' },
+            { label: 'Belgeler',              href: '/tr/docs' },
             { label: 'API',                   href: '#' },
-            { label: 'Blog',                  href: '#' },
+            { label: 'Blog',                  href: '/tr/blog' },
             { label: 'Araştırma Şablonları',  href: '#' },
           ],
         },
@@ -679,8 +679,8 @@ export const translations = {
           title: 'Şirket',
           links: [
             { label: 'Hakkımızda', href: '#' },
-            { label: 'Gizlilik',   href: '#' },
-            { label: 'Koşullar',   href: '#' },
+            { label: 'Gizlilik',   href: '/tr/legal/privacy' },
+            { label: 'Koşullar',   href: '/tr/legal/terms' },
             { label: 'İletişim',   href: '#' },
           ],
         },
