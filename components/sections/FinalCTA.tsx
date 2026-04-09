@@ -28,6 +28,7 @@ export function FinalCTA() {
         position: 'absolute',
         top: 0, left: 0, right: 0,
         height: 1,
+        pointerEvents: 'none',
         background: 'linear-gradient(90deg, transparent 0%, rgba(168,85,247,0.5) 30%, rgba(251,191,36,0.35) 70%, transparent 100%)',
       }} />
 
