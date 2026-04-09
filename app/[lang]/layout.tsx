@@ -3,6 +3,7 @@ import { LanguageProvider } from '@/lib/i18n';
 import { JsonLd } from '@/components/JsonLd';
 import { CookieBanner } from '@/components/ui/CookieBanner';
 import { VercelAnalytics } from '@/components/VercelAnalytics';
+import { AmbientBackground } from '@/components/AmbientBackground';
 import '../globals.css';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://vault.app';
@@ -97,6 +98,7 @@ export default async function RootLayout({
       </head>
       <body suppressHydrationWarning>
         <div className="noise-overlay" aria-hidden="true" />
+        <AmbientBackground />
         <LanguageProvider initialLang={lang as any}>
           {children}
           <CookieBanner />
