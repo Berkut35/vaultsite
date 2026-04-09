@@ -11,9 +11,14 @@ export function AmbientBackground() {
     setReducedMotion(mq.matches);
     const motionHandler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
     mq.addEventListener('change', motionHandler);
-    const scrollHandler = () => setScrollY(window.scrollY);
+    let rafId = 0;
+    const scrollHandler = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => setScrollY(window.scrollY));
+    };
     window.addEventListener('scroll', scrollHandler, { passive: true });
     return () => {
+      cancelAnimationFrame(rafId);
       mq.removeEventListener('change', motionHandler);
       window.removeEventListener('scroll', scrollHandler);
     };

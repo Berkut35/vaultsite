@@ -14,6 +14,10 @@ export function HowItWorks() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: '-80px' });
 
+  const prefersReducedMotion = typeof window !== 'undefined'
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    : false;
+
   return (
     <section ref={sectionRef} id="how-it-works" style={{ padding: 'clamp(64px, 10vw, 128px) 24px' }} aria-labelledby="how-it-works-heading">
       <style dangerouslySetInnerHTML={{ __html: `
@@ -21,11 +25,6 @@ export function HowItWorks() {
     0%   { box-shadow: 0 0 0 0 rgba(168,85,247,0.45); }
     70%  { box-shadow: 0 0 0 10px rgba(168,85,247,0); }
     100% { box-shadow: 0 0 0 0 rgba(168,85,247,0); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    @keyframes badgePulse {
-      0%, 100% { box-shadow: none; }
-    }
   }
 `}} />
       <div style={{ maxWidth: '72rem', margin: '0 auto' }}>
@@ -72,7 +71,7 @@ export function HowItWorks() {
                   border: '1px solid rgba(168,85,247,0.16)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   marginBottom: 20,
-                  animation: inView ? `badgePulse 0.6s ease-out ${0.4 + i * 0.15}s 1` : 'none',
+                  animation: (inView && !prefersReducedMotion) ? `badgePulse 0.6s ease-out ${0.4 + i * 0.15}s 1` : 'none',
                 }}>
                   <Icon size={18} color="var(--accent-purple)" />
                 </div>
