@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import { LanguageProvider } from '@/lib/i18n';
 import { JsonLd } from '@/components/JsonLd';
 import { CookieBanner } from '@/components/ui/CookieBanner';
+import { VercelAnalytics } from '@/components/VercelAnalytics';
 import '../globals.css';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://vault.app';
@@ -102,8 +101,7 @@ export default async function RootLayout({
           {children}
           <CookieBanner />
         </LanguageProvider>
-        <Analytics />
-        <SpeedInsights />
+        <VercelAnalytics />
       </body>
     </html>
   );
