@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 import { Menu, X, Globe, LogOut, Zap, Crown, ChevronDown } from 'lucide-react';
 import { AuthModal } from '../AuthModal';
 import { useLang } from '@/lib/i18n';
@@ -291,7 +291,16 @@ function ProfileDropdown({ user, data, onSignOut, n }: ProfileDropdownProps) {
 
 export function Navbar() {
   const { lang, setLang, t } = useLang();
+  const pathname = usePathname();
   const n = t.nav;
+
+  const getHref = (href: string) => {
+    if (href.startsWith('#')) {
+      const isHome = pathname === `/${lang}` || pathname === `/${lang}/`;
+      return isHome ? href : `/${lang}${href}`;
+    }
+    return href;
+  };
 
   const [scrolled,   setScrolled]   = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -384,7 +393,7 @@ export function Navbar() {
           }}
         >
           {/* Logo */}
-          <a href="#" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', flexShrink: 0, marginRight: 32 }}>
+          <Link href={`/${lang}`} style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', flexShrink: 0, marginRight: 32 }}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
               <rect x="2" y="5" width="4" height="14" rx="1" fill="#8B5CF6" opacity="0.9"/>
               <rect x="7" y="3" width="4.5" height="16" rx="1" fill="#6366F1" opacity="0.95"/>
@@ -395,16 +404,16 @@ export function Navbar() {
             <span style={{ fontSize: 15, fontWeight: 700, letterSpacing: '-0.02em', color: '#F0F0F0', fontFamily: '"DM Sans", sans-serif' }}>
               Vault
             </span>
-          </a>
+          </Link>
 
           {/* Desktop nav */}
           <nav className="hidden md:flex" style={{ gap: 4, flex: 1 }} aria-label="Main navigation">
             {NAV_LINKS.map(link => {
               const isActive = activeHref === link.href;
               return (
-                <a
+                <Link
                   key={link.href}
-                  href={link.href}
+                  href={getHref(link.href)}
                   style={{
                     padding: '6px 14px', borderRadius: 8, fontSize: 13.5, fontWeight: 400,
                     color: isActive ? '#F0F0F0' : '#888888', textDecoration: 'none',
@@ -415,7 +424,7 @@ export function Navbar() {
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = isActive ? '#F0F0F0' : '#888888'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                 >
                   {link.label}
-                </a>
+                </Link>
               );
             })}
           </nav>

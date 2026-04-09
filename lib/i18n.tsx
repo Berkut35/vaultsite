@@ -320,10 +320,10 @@ export const translations = {
         {
           title: 'Company',
           links: [
-            { label: 'About',   href: '#' },
-            { label: 'Privacy', href: '/en/legal/privacy' },
-            { label: 'Terms',   href: '/en/legal/terms' },
-            { label: 'Cookies', href: '/en/legal/cookies' },
+            { label: 'Privacy Policy', href: '/en/legal/privacy' },
+            { label: 'Terms of Service',   href: '/en/legal/terms' },
+            { label: 'Cookie Policy', href: '/en/legal/cookies' },
+            { label: 'KVKK', href: '/en/legal/kvkk' },
             { label: 'Contact', href: '#' },
           ],
         },
@@ -681,10 +681,10 @@ export const translations = {
         {
           title: 'Şirket',
           links: [
-            { label: 'Hakkımızda', href: '#' },
-            { label: 'Gizlilik',   href: '/tr/legal/privacy' },
-            { label: 'Koşullar',   href: '/tr/legal/terms' },
+            { label: 'Gizlilik Politikası',   href: '/tr/legal/privacy' },
+            { label: 'Kullanım Şartları',   href: '/tr/legal/terms' },
             { label: 'Çerez Politikası', href: '/tr/legal/cookies' },
+            { label: 'KVKK', href: '/tr/legal/kvkk' },
             { label: 'İletişim',   href: '#' },
           ],
         },

@@ -1,11 +1,21 @@
 'use client';
 
-import { Twitter, Github, Linkedin } from 'lucide-react';
-import { useLang } from '@/lib/i18n';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 export function Footer() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const pathname = usePathname();
   const f = t.footer;
+
+  const getHref = (href: string) => {
+    if (href.startsWith('#')) {
+      // If we're on a subpage (blog, docs, legal), we need to go back to the home page for anchors
+      const isHome = pathname === `/${lang}` || pathname === `/${lang}/`;
+      return isHome ? href : `/${lang}${href}`;
+    }
+    return href;
+  };
 
   return (
     <footer style={{ background: '#030303', borderTop: '1px solid var(--border-subtle)', paddingTop: 64, paddingBottom: 40 }}>
@@ -13,7 +23,7 @@ export function Footer() {
         <div style={{ display: 'grid', gap: 48, marginBottom: 56 }} className="grid grid-cols-2 md:grid-cols-4">
           {/* Col 1 — Brand */}
           <div>
-            <a href="#" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none', marginBottom: 12 }}>
+            <Link href={`/${lang}`} style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none', marginBottom: 12 }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
                 <rect x="2" y="5" width="4" height="14" rx="1" fill="#8B5CF6" opacity="0.9"/>
                 <rect x="7" y="3" width="4.5" height="16" rx="1" fill="#6366F1" opacity="0.95"/>
@@ -22,13 +32,15 @@ export function Footer() {
                 <line x1="1.5" y1="19.5" x2="22.5" y2="19.5" stroke="#6D28D9" strokeWidth="1.5" strokeLinecap="round"/>
               </svg>
               <span style={{ fontSize: 14, fontWeight: 700, letterSpacing: '-0.02em', color: '#F0F0F0', fontFamily: '"DM Sans", sans-serif' }}>Vault</span>
-            </a>
+            </Link>
             <p style={{ fontSize: 13, color: '#444444', lineHeight: 1.65, maxWidth: 180, fontFamily: '"DM Sans", sans-serif', marginBottom: 20 }}>
               {f.tagline}
             </p>
             <div style={{ display: 'flex', gap: 10 }}>
               {[{ Icon: Twitter, label: 'Twitter/X', href: '#' }, { Icon: Github, label: 'GitHub', href: 'https://github.com/Berkut35/vault-releases' }, { Icon: Linkedin, label: 'LinkedIn', href: '#' }].map(({ Icon, label, href }) => (
                 <a key={label} href={href} aria-label={label}
+                  target={href.startsWith('http') ? '_blank' : undefined}
+                  rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   style={{ width: 32, height: 32, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#444444', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', textDecoration: 'none', transition: 'color 0.2s ease, border-color 0.2s ease' }}
                   onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#F0F0F0'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.12)'; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#444444'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.06)'; }}
@@ -47,13 +59,13 @@ export function Footer() {
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {col.links.map(link => (
-                  <a key={link.label} href={link.href}
+                  <Link key={link.label} href={getHref(link.href)}
                     style={{ fontSize: 13.5, color: '#444444', textDecoration: 'none', transition: 'color 0.2s ease', fontFamily: '"DM Sans", sans-serif' }}
                     onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = '#888888')}
                     onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = '#444444')}
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
