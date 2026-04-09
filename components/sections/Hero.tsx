@@ -67,7 +67,7 @@ export function Hero() {
                 {h.primaryCta}
               </DownloadButton>
 
-              <a href={process.env.NEXT_PUBLIC_DOWNLOAD_URL ?? '#'}
+              <a href="#how-it-works"
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '13px 20px', borderRadius: 999, color: 'var(--text-secondary)', fontSize: 15, fontWeight: 400, textDecoration: 'none', fontFamily: '"DM Sans", sans-serif', border: '1px solid var(--border-subtle)', transition: 'color 0.2s ease, border-color 0.2s ease' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.12)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-subtle)'; }}
@@ -173,7 +173,7 @@ export function Hero() {
               opacity: 0.8;
             }
           `}} />
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }} className="hidden lg:block">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }} className="mt-16 lg:mt-0 w-full max-w-[860px] mx-auto">
             <div className="hero-float-anim">
               <AppMockup />
             </div>

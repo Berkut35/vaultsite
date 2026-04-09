@@ -26,7 +26,7 @@ export function HowItWorks() {
               <motion.div key={step.number}
                 initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: '-60px' }}
                 transition={{ duration: 0.55, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                style={{ padding: '36px 32px', position: 'relative', borderRight: i < h.steps.length - 1 ? '1px solid var(--border-subtle)' : 'none' }}
+                className={`p-8 relative border-[var(--border-subtle)] ${i !== h.steps.length - 1 ? 'border-b lg:border-b-0 lg:border-r' : ''}`}
               >
                 <div aria-hidden="true" style={{ position: 'absolute', top: 24, right: 24, fontSize: 80, fontWeight: 800, color: 'var(--accent-gold)', opacity: 0.07, lineHeight: 1, letterSpacing: '-0.06em', fontFamily: '"DM Sans", sans-serif', userSelect: 'none', pointerEvents: 'none' }}>
                   {step.number}
@@ -44,7 +44,7 @@ export function HowItWorks() {
                   {step.description}
                 </p>
                 {i < h.steps.length - 1 && (
-                  <div className="hidden md:flex" aria-hidden="true"
+                  <div className="hidden lg:flex" aria-hidden="true"
                     style={{ position: 'absolute', right: -14, top: '50%', transform: 'translateY(-50%)', zIndex: 1, width: 28, height: 28, borderRadius: '50%', background: 'var(--bg-surface)', border: '1px solid rgba(251,191,36,0.22)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(251,191,36,0.6)', fontSize: 12 }}
                   >
                     →

@@ -68,7 +68,7 @@ export function Features() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 12 }}>
           {/* Card 1 — Large */}
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.55, ease: 'easeOut', delay: 0 }}
-            style={{ gridColumn: 'span 12' }} className="lg:col-span-7 lg:row-span-2"
+             className="col-span-12 lg:col-span-7 lg:row-span-2"
           >
             <BentoCard style={{ ...CARD_BASE, minHeight: 280 }}>
               <IconBadge icon={ICONS[0]} />
@@ -80,7 +80,7 @@ export function Features() {
 
           {/* Card 2 */}
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.55, ease: 'easeOut', delay: 0.06 }}
-            style={{ gridColumn: 'span 12' }} className="lg:col-span-5"
+             className="col-span-12 lg:col-span-5"
           >
             <BentoCard style={{ ...CARD_BASE, minHeight: 200 }}>
               <IconBadge icon={ICONS[1]} />
@@ -96,7 +96,7 @@ export function Features() {
 
           {/* Card 3 */}
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.55, ease: 'easeOut', delay: 0.1 }}
-            style={{ gridColumn: 'span 12' }} className="lg:col-span-5"
+             className="col-span-12 lg:col-span-5"
           >
             <BentoCard style={{ ...CARD_BASE, minHeight: 200 }}>
               <IconBadge icon={ICONS[2]} />
@@ -113,7 +113,7 @@ export function Features() {
           {/* Cards 4-6 */}
           {[items[3], items[4], items[5]].map((item, i) => (
             <motion.div key={item.title} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.55, ease: 'easeOut', delay: 0.14 + i * 0.04 }}
-              style={{ gridColumn: 'span 12' }} className="lg:col-span-4"
+               className="col-span-12 lg:col-span-4"
             >
               <BentoCard style={{ ...CARD_BASE }}>
                 <IconBadge icon={ICONS[3 + i]} />

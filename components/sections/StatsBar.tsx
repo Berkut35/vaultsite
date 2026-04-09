@@ -33,14 +33,14 @@ export function StatsBar() {
   return (
     <section ref={ref} aria-label="Platform statistics">
       <div style={{ borderTop: '1px solid var(--border-subtle)', borderBottom: '1px solid var(--border-subtle)', padding: '32px 24px' }}>
-        <div style={{ maxWidth: '72rem', margin: '0 auto', display: 'grid', gap: 0 }} className="grid grid-cols-2 md:grid-cols-4">
+        <div style={{ maxWidth: '72rem', margin: '0 auto', display: 'grid', gap: 0 }} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
           {items.map((stat, i) => (
             <motion.div key={i}
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
-              style={{ textAlign: 'center', padding: '16px 24px', borderRight: i < items.length - 1 ? '1px solid var(--border-subtle)' : 'none' }}
+              className={`text-center py-6 px-4 border-[var(--border-subtle)] ${i === items.length - 1 ? '' : 'border-b sm:border-b-0'} ${i % 2 === 0 ? 'sm:border-r md:border-r' : 'sm:border-b md:border-b-0'} ${i !== items.length - 1 ? 'md:border-r' : ''}`}
             >
               <div style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 700, letterSpacing: '-0.04em', color: 'var(--accent-gold)', lineHeight: 1, marginBottom: 6, fontFamily: '"DM Sans", sans-serif' }}>
                 <CountUp end={VALUES[i]} suffix={stat.suffix} inView={inView} />
