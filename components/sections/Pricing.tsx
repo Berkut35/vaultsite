@@ -9,6 +9,7 @@ export function Pricing() {
   const p = t.pricing;
 
   function renderCard(plan: any, i: number) {
+    const isComingSoon = plan.comingSoon === true;
     const isAcademicBadge =
       plan.badge === 'Academic' || plan.badge === 'Akademik';
     const badgeStyle = isAcademicBadge
@@ -29,7 +30,7 @@ export function Pricing() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-60px' }}
         transition={{ duration: 0.55, delay: i * 0.1, ease: 'easeOut' }}
-        style={{ position: 'relative' }}
+        style={{ position: 'relative', ...(isComingSoon ? { opacity: 0.52, filter: 'grayscale(0.3)' } : {}) }}
       >
         {plan.badge && (
           <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', padding: '3px 14px', borderRadius: 999, fontSize: 11, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', fontFamily: '"DM Sans", sans-serif', whiteSpace: 'nowrap', zIndex: 1, ...badgeStyle }}>
@@ -72,19 +73,25 @@ export function Pricing() {
             {plan.description}
           </p>
 
-          <a
-            href={plan.ctaHref ?? '#'}
-            aria-label={plan.ctaHref?.startsWith('mailto:') ? `${plan.cta} via email` : undefined}
-            style={{ display: 'block', width: '100%', padding: '12px 20px', borderRadius: 10, textAlign: 'center', fontSize: 14, fontWeight: 600, textDecoration: 'none', transition: 'all 0.2s ease', fontFamily: '"DM Sans", sans-serif', marginBottom: 28,
-              ...(plan.ctaVariant === 'filled'
-                ? { background: '#A855F7', color: '#fff', border: '1px solid transparent' }
-                : { background: 'transparent', color: 'var(--text-primary)', border: '1px solid var(--border-subtle)' })
-            }}
-            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; if (plan.ctaVariant === 'filled') el.style.opacity = '0.85'; else el.style.background = 'rgba(255,255,255,0.04)'; }}
-            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.opacity = '1'; el.style.background = plan.ctaVariant === 'filled' ? '#A855F7' : 'transparent'; }}
-          >
-            {plan.cta}
-          </a>
+          {isComingSoon ? (
+            <div style={{ display: 'block', width: '100%', padding: '12px 20px', borderRadius: 10, textAlign: 'center', fontSize: 14, fontWeight: 600, fontFamily: '"DM Sans", sans-serif', marginBottom: 28, background: 'transparent', color: 'var(--text-secondary)', border: '1px solid var(--border-subtle)', cursor: 'default', letterSpacing: '0.04em' }}>
+              {plan.comingSoonLabel}
+            </div>
+          ) : (
+            <a
+              href={plan.ctaHref ?? '#'}
+              aria-label={plan.ctaHref?.startsWith('mailto:') ? `${plan.cta} via email` : undefined}
+              style={{ display: 'block', width: '100%', padding: '12px 20px', borderRadius: 10, textAlign: 'center', fontSize: 14, fontWeight: 600, textDecoration: 'none', transition: 'all 0.2s ease', fontFamily: '"DM Sans", sans-serif', marginBottom: 28,
+                ...(plan.ctaVariant === 'filled'
+                  ? { background: '#A855F7', color: '#fff', border: '1px solid transparent' }
+                  : { background: 'transparent', color: 'var(--text-primary)', border: '1px solid var(--border-subtle)' })
+              }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; if (plan.ctaVariant === 'filled') el.style.opacity = '0.85'; else el.style.background = 'rgba(255,255,255,0.04)'; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.opacity = '1'; el.style.background = plan.ctaVariant === 'filled' ? '#A855F7' : 'transparent'; }}
+            >
+              {plan.cta}
+            </a>
+          )}
 
           <div style={{ height: 1, background: 'var(--border-subtle)', marginBottom: 24 }} />
 

@@ -274,6 +274,8 @@ export const translations = {
           ctaHref:     'mailto:sales@vault.app',
           highlighted: false,
           badge:       'Enterprise',
+          comingSoon:      true,
+          comingSoonLabel: 'Coming Soon',
           features: [
             'Everything in Academic',
             'Unlimited seats',
@@ -667,6 +669,8 @@ export const translations = {
           ctaHref:     'mailto:sales@vault.app',
           highlighted: false,
           badge:       'Kurumsal',
+          comingSoon:      true,
+          comingSoonLabel: 'Yakında',
           features: [
             'Akademik plandaki her şey',
             'Sınırsız kullanıcı',
