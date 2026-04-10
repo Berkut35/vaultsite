@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { LanguageProvider } from '@/lib/i18n';
+import type { Lang } from '@/lib/i18n';
 import { JsonLd } from '@/components/JsonLd';
 import { CookieBanner } from '@/components/ui/CookieBanner';
 import { VercelAnalytics } from '@/components/VercelAnalytics';
@@ -87,7 +88,7 @@ export default async function RootLayout({
   params: Promise<{ lang: string }>;
 }) {
   const resolvedParams = await params;
-  const lang = resolvedParams.lang === 'tr' ? 'tr' : 'en';
+  const lang: Lang = resolvedParams.lang === 'tr' ? 'tr' : 'en';
 
   return (
     <html lang={lang} suppressHydrationWarning>
@@ -99,7 +100,7 @@ export default async function RootLayout({
       <body suppressHydrationWarning>
         <div className="noise-overlay" aria-hidden="true" />
         <AmbientBackground />
-        <LanguageProvider initialLang={lang as any}>
+        <LanguageProvider initialLang={lang}>
           {children}
           <CookieBanner />
         </LanguageProvider>
