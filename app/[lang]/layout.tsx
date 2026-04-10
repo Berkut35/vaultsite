@@ -95,7 +95,7 @@ export default async function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <JsonLd />
+        <JsonLd lang={lang} />
       </head>
       <body suppressHydrationWarning>
         <div className="noise-overlay" aria-hidden="true" />
