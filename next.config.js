@@ -1,3 +1,4 @@
+// Bundle analyzer — run with: ANALYZE=true npm run build
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -36,4 +37,8 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+module.exports = withBundleAnalyzer(nextConfig);
