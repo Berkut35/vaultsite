@@ -17,11 +17,11 @@ export async function GET(request: NextRequest) {
       {
         cookies: {
           getAll() { return cookieStore.getAll(); },
-          setAll(cookiesToSet: { name: string; value: string; options?: object }[]) {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              cookieStore.set(name, value, options as any)
-            );
+          setAll(cookiesToSet: Array<{ name: string; value: string; options?: object }>) {
+            cookiesToSet.forEach(({ name, value, options }) => {
+              const cookieOptions = (options ?? {}) as Parameters<typeof cookieStore.set>[2];
+              cookieStore.set(name, value, cookieOptions);
+            });
           },
         },
       }

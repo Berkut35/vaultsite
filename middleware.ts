@@ -29,11 +29,11 @@ export async function middleware(request: NextRequest) {
     createServerClient(supabaseUrl, supabaseKey, {
       cookies: {
         getAll() { return request.cookies.getAll(); },
-        setAll(cookiesToSet: { name: string; value: string; options?: object }[]) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options as any)
-          );
+        setAll(cookiesToSet: Array<{ name: string; value: string; options?: object }>) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            const cookieOptions = (options ?? {}) as Parameters<typeof response.cookies.set>[2];
+            response.cookies.set(name, value, cookieOptions);
+          });
         },
       },
     });
