@@ -1,10 +1,13 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { useState } from 'react';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Play } from 'lucide-react';
 import { MagneticButton }  from '@/components/ui/MagneticButton';
 import { DownloadButton }  from '@/components/ui/DownloadButton';
 import { AppMockup } from '@/components/AppMockup';
+import { AnimatedDemo } from '@/components/AnimatedDemo';
 import { useLang }        from '@/lib/i18n';
 
 const container = {
@@ -19,8 +22,10 @@ const wordVar = {
 export function Hero() {
   const { t } = useLang();
   const h = t.hero;
+  const [demoOpen, setDemoOpen] = useState(false);
 
   return (
+    <>
     <section id="hero" style={{ paddingTop: 'clamp(100px, 18vh, 160px)', paddingBottom: 'clamp(80px, 12vh, 140px)', paddingLeft: 24, paddingRight: 24, position: 'relative', overflow: 'hidden' }}>
       <div style={{ maxWidth: '72rem', margin: '0 auto' }}>
         <div style={{ display: 'grid', gap: 64, alignItems: 'center' }} className="lg:grid-cols-[60fr_40fr]">
@@ -67,14 +72,15 @@ export function Hero() {
                 {h.primaryCta}
               </DownloadButton>
 
-              <a href="#how-it-works"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '13px 20px', borderRadius: 999, color: 'var(--text-secondary)', fontSize: 15, fontWeight: 400, textDecoration: 'none', fontFamily: '"DM Sans", sans-serif', border: '1px solid var(--border-subtle)', transition: 'color 0.2s ease, border-color 0.2s ease' }}
+              <button
+                onClick={() => setDemoOpen(true)}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '13px 20px', borderRadius: 999, color: 'var(--text-secondary)', fontSize: 15, fontWeight: 400, fontFamily: '"DM Sans", sans-serif', border: '1px solid var(--border-subtle)', background: 'transparent', cursor: 'pointer', transition: 'color 0.2s ease, border-color 0.2s ease' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.12)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-subtle)'; }}
               >
-                {h.secondaryCta}
-                <ArrowRight size={14} />
-              </a>
+                <Play size={13} fill="currentColor" />
+                {h.watchDemo}
+              </button>
             </motion.div>
 
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.65 }}
@@ -126,16 +132,19 @@ export function Hero() {
                           alignItems: 'center',
                           justifyContent: 'center'
                         }}>
-                          <img 
-                            src={univ.src} 
-                            alt={univ.name} 
-                            style={{ 
-                              height: '100%', 
-                              width: 'auto', 
+                          <Image
+                            src={univ.src}
+                            alt={univ.name}
+                            width={80}
+                            height={28}
+                            unoptimized
+                            style={{
+                              height: '100%',
+                              width: 'auto',
                               filter: 'grayscale(1) brightness(0) invert(1)',
                               opacity: 0.45,
-                              objectFit: 'contain'
-                            }} 
+                              objectFit: 'contain',
+                            }}
                           />
                         </div>
                       ))}
@@ -185,5 +194,10 @@ export function Hero() {
         </div>
       </div>
     </section>
+
+    <AnimatePresence>
+      {demoOpen && <AnimatedDemo onClose={() => setDemoOpen(false)} />}
+    </AnimatePresence>
+    </>
   );
 }
