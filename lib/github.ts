@@ -5,6 +5,17 @@ export type Release = {
   body: string;          // markdown release notes
 };
 
+function isRelease(obj: unknown): obj is Release {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    'tag_name' in obj &&
+    'name' in obj &&
+    'published_at' in obj &&
+    'body' in obj
+  );
+}
+
 export async function getReleases(): Promise<Release[]> {
   try {
     const res = await fetch(
@@ -12,6 +23,7 @@ export async function getReleases(): Promise<Release[]> {
       {
         headers: {
           Accept: 'application/vnd.github+json',
+          // Optional: raises rate limit from 60 to 5000 req/hr
           ...(process.env.GITHUB_TOKEN
             ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` }
             : {}),
@@ -19,9 +31,14 @@ export async function getReleases(): Promise<Release[]> {
         next: { revalidate: false }, // build-time SSG only
       }
     );
-    if (!res.ok) return [];
-    return res.json();
-  } catch {
+    if (!res.ok) {
+      console.error(`GitHub releases fetch failed: ${res.status} ${res.statusText}`);
+      return [];
+    }
+    const data: unknown = await res.json();
+    return Array.isArray(data) ? data.filter(isRelease) : [];
+  } catch (error) {
+    console.error('GitHub releases fetch error:', error);
     return [];
   }
 }
