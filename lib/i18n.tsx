@@ -263,9 +263,6 @@ export const translations = {
             'Team features',
           ],
         },
-      ],
-      institutionsDivider: 'For Institutions',
-      institutionPlans: [
         {
           name:        'Institutional',
           price:       'custom',
@@ -659,9 +656,6 @@ export const translations = {
             'Takım özellikleri',
           ],
         },
-      ],
-      institutionsDivider: 'Kurumlar İçin',
-      institutionPlans: [
         {
           name:        'Kurumsal',
           price:       'custom',

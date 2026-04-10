@@ -7,9 +7,8 @@ import { useLang } from '@/lib/i18n';
 export function Pricing() {
   const { t } = useLang();
   const p = t.pricing;
-  const institutionPlans: any[] = (p as any).institutionPlans ?? [];
 
-  function renderCard(plan: any, i: number, indexOffset = 0) {
+  function renderCard(plan: any, i: number) {
     const isAcademicBadge =
       plan.badge === 'Academic' || plan.badge === 'Akademik';
     const badgeStyle = isAcademicBadge
@@ -29,7 +28,7 @@ export function Pricing() {
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.55, delay: (i + indexOffset) * 0.1, ease: 'easeOut' }}
+        transition={{ duration: 0.55, delay: i * 0.1, ease: 'easeOut' }}
         style={{ position: 'relative' }}
       >
         {plan.badge && (
@@ -112,20 +111,8 @@ export function Pricing() {
           <p style={{ fontSize: 16, color: 'var(--text-secondary)', fontFamily: '"DM Sans", sans-serif' }}>{p.subtitle}</p>
         </motion.div>
 
-        <div style={{ display: 'grid', gap: 24, alignItems: 'start', maxWidth: '900px', margin: '0 auto' }} className="grid grid-cols-1 md:grid-cols-2">
+        <div style={{ display: 'grid', gap: 24, alignItems: 'start', maxWidth: '1024px', margin: '0 auto' }} className="grid grid-cols-1 md:grid-cols-3">
           {p.plans.map((plan, i) => renderCard(plan, i))}
-
-          {institutionPlans.length > 0 && (
-            <div className="col-span-1 md:col-span-2" style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '8px 0', marginTop: 8 }}>
-              <div style={{ flex: 1, height: 1, background: 'var(--border-subtle)' }} />
-              <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: '"DM Sans", sans-serif', whiteSpace: 'nowrap' }}>
-                {(p as any).institutionsDivider}
-              </span>
-              <div style={{ flex: 1, height: 1, background: 'var(--border-subtle)' }} />
-            </div>
-          )}
-
-          {institutionPlans.map((plan, i) => renderCard(plan, i, p.plans.length + 1))}
         </div>
       </div>
     </section>
