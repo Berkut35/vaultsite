@@ -1,3 +1,5 @@
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://vault.app';
+
 interface JsonLdProps {
   lang: 'en' | 'tr';
 }
@@ -96,13 +98,13 @@ export function JsonLd({ lang }: JsonLdProps) {
     '@graph': [
       {
         '@type': 'Organization',
-        '@id': 'https://vault.app/#organization',
+        '@id': `${APP_URL}/#organization`,
         name: 'Vault',
-        url: 'https://vault.app',
+        url: APP_URL,
       },
       {
         '@type': 'SoftwareApplication',
-        '@id': 'https://vault.app/#software',
+        '@id': `${APP_URL}/#software`,
         name: 'Vault',
         applicationCategory: 'EducationApplication',
         operatingSystem: 'Web, macOS, Windows',
@@ -112,11 +114,6 @@ export function JsonLd({ lang }: JsonLdProps) {
           '@type': 'Offer',
           price: '0',
           priceCurrency: 'TRY',
-        },
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: '4.9',
-          reviewCount: '10000',
         },
         featureList: [
           'PDF, EPUB, DOCX, TXT document reading and annotation',
@@ -131,11 +128,11 @@ export function JsonLd({ lang }: JsonLdProps) {
           '@type': 'Organization',
           name: 'Vault',
         },
-        url: 'https://vault.app',
+        url: APP_URL,
       },
       {
         '@type': 'FAQPage',
-        '@id': 'https://vault.app/#faq',
+        '@id': `${APP_URL}/#faq`,
         inLanguage: lang === 'tr' ? 'tr-TR' : 'en-US',
         mainEntity: faqItems,
       },

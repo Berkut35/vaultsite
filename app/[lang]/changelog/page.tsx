@@ -11,6 +11,10 @@ interface PageProps {
   params: Promise<{ lang: string }>;
 }
 
+export function generateStaticParams() {
+  return [{ lang: 'en' }, { lang: 'tr' }];
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { lang: langParam } = await params;
   const lang: Lang = langParam === 'tr' ? 'tr' : 'en';

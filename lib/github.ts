@@ -6,13 +6,13 @@ export type Release = {
 };
 
 function isRelease(obj: unknown): obj is Release {
+  if (typeof obj !== 'object' || obj === null) return false;
+  const o = obj as Record<string, unknown>;
   return (
-    typeof obj === 'object' &&
-    obj !== null &&
-    'tag_name' in obj &&
-    'name' in obj &&
-    'published_at' in obj &&
-    'body' in obj
+    typeof o.tag_name === 'string' &&
+    typeof o.name === 'string' &&
+    typeof o.published_at === 'string' &&
+    typeof o.body === 'string'
   );
 }
 
