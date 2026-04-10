@@ -64,7 +64,7 @@ function FeatureLabel({ label, tooltip }: { label: string, tooltip?: string }) {
 
 export function ComparisonTable() {
   const { t } = useLang();
-  const c = t.comparison;
+  const c = t.comparison as typeof t.comparison & { tooltips?: (string | undefined)[] };
 
   return (
     <section id="comparison" style={{ padding: 'clamp(64px, 10vw, 128px) 24px' }} aria-labelledby="comparison-heading">
@@ -104,7 +104,7 @@ export function ComparisonTable() {
                 return (
                   <tr key={rowLabel} style={{ background: rowBg }}>
                     <td style={{ padding: '14px 20px', borderBottom: rowBorder, verticalAlign: 'middle' }}>
-                      <FeatureLabel label={rowLabel} tooltip={(c as any).tooltips?.[i]} />
+                      <FeatureLabel label={rowLabel} tooltip={c.tooltips?.[i]} />
                     </td>
                     {/* Vault */}
                     <td style={{ padding: '14px 20px', textAlign: 'center', borderLeft: '2px solid var(--accent-purple)', background: 'rgba(168,85,247,0.03)', borderBottom: rowBorder }}>
