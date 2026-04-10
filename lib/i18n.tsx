@@ -798,6 +798,16 @@ export const translations = {
 export type Lang = keyof typeof translations;
 export type T = typeof translations.en;
 
+export type TestimonialItem = {
+  quote:       string;
+  name:        string;
+  role:        string;
+  institution: string;
+  initials:    string;
+  avatar?:     string | null;
+  featured?:   boolean;
+};
+
 // ─── Context ──────────────────────────────────────────────────────────────────
 
 type LanguageCtx = { lang: Lang; t: T; setLang: (l: Lang) => void };
