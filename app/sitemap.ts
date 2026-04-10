@@ -26,5 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
-  return [...routes, ...dynamicRoutes];
+  const changelogRoutes = languages.map((lang) => ({
+    url: `${APP_URL}/${lang}/changelog`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.6,
+  }));
+
+  return [...routes, ...dynamicRoutes, ...changelogRoutes];
 }
