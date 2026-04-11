@@ -836,8 +836,8 @@ function ExportScene() {
 }
 
 // ── AnimatedDemo Modal ────────────────────────────────────────────────────────
-const SCENE_LABELS = ['Kütüphane', 'PDF & Alıntı', 'Bilgi Grafiği', 'Dışa Aktarım'];
-const SCENES = [LibraryScene, PdfScene, MetadataScene, CanvasScene, ExportScene];
+const SCENE_LABELS = ['Kütüphane', 'OmniSearch', 'PDF & Alıntı', 'Akıllı Künye', 'Bilgi Grafiği', 'Dışa Aktarım'];
+const SCENES = [LibraryScene, OmniSearchScene, PdfScene, MetadataScene, CanvasScene, ExportScene];
 
 interface AnimatedDemoProps {
   onClose: () => void;
