@@ -27,7 +27,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
               "img-src 'self' data: https://images.unsplash.com https://upload.wikimedia.org",
-              "connect-src 'self' https://*.supabase.co https://vitals.vercel-insights.com",
+              "connect-src 'self' https://*.supabase.co https://vitals.vercel-insights.com https://api.github.com",
               "frame-ancestors 'none'",
             ].join('; '),
           },

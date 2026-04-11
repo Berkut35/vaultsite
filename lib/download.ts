@@ -1,4 +1,4 @@
-const RELEASE_REPO = 'Berkut35/vault-releases';
+export const RELEASE_REPO = 'Berkut35/vault-releases';
 
 export type OS = 'windows' | 'mac' | 'linux' | 'unknown';
 
@@ -76,6 +76,13 @@ export async function resolveDownloadUrl(): Promise<DownloadTarget | null> {
     }
   } catch {
     // fall through to env var fallback
+  }
+
+  // Fallback: NEXT_PUBLIC_DOWNLOAD_URL env var
+  const fallbackUrl = process.env.NEXT_PUBLIC_DOWNLOAD_URL;
+  if (fallbackUrl) {
+    const filename = fallbackUrl.split('/').pop() ?? 'vault-setup.exe';
+    return { url: fallbackUrl, filename, os, version: 'latest' };
   }
 
   return null;

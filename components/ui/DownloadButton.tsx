@@ -2,7 +2,7 @@
 
 import { useState, ReactNode, CSSProperties } from 'react';
 import { Loader2, Monitor, Apple, Terminal } from 'lucide-react';
-import { resolveDownloadUrl, triggerBrowserDownload, detectOS } from '@/lib/download';
+import { resolveDownloadUrl, detectOS, RELEASE_REPO } from '@/lib/download';
 
 interface DownloadButtonProps {
   children: ReactNode;
@@ -27,8 +27,10 @@ export function DownloadButton({ children, style, className = '' }: DownloadButt
         // For cross-origin URLs (GitHub), navigate directly — anchor.download
         // only works for same-origin. window.location keeps the tab.
         window.location.href = target.url;
+      } else {
+        // No release available — redirect to GitHub releases page
+        window.open(`https://github.com/${RELEASE_REPO}/releases`, '_blank', 'noopener,noreferrer');
       }
-      // If no release exists yet, do nothing — button just resets
     } finally {
       setTimeout(() => setLoading(false), 1500);
     }
