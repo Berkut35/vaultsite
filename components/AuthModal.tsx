@@ -9,7 +9,7 @@ import { useLang } from '@/lib/i18n';
 interface AuthModalProps {
   isOpen:       boolean;
   onClose:      () => void;
-  initialMode?: 'signin' | 'signup';
+  initialMode?: 'signin' | 'signup' | 'forgot' | 'reset';
 }
 
 export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModalProps) {
