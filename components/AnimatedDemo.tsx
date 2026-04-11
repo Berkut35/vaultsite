@@ -341,7 +341,7 @@ function CanvasScene() {
             transition={{
               opacity: { delay: (0.15 + i * 0.12) / SPEED, duration: 0.35 / SPEED },
               scale:   { delay: (0.15 + i * 0.12) / SPEED, duration: 0.35 / SPEED, ease: [0.22,1,0.36,1] },
-              y:       { delay: (1.5 + i * 0.2) / SPEED, duration: 3, repeat: Infinity, ease: 'easeInOut', repeatType: 'reverse' },
+              y:       { delay: (1.5 + i * 0.2) / SPEED, duration: 3 / SPEED, repeat: Infinity, ease: 'easeInOut', repeatType: 'reverse' },
             }}
             style={{
               position: 'absolute',
