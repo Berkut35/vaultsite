@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 
 const SCENE_DURATION = 5000;
+const SPEED = 1.25;
 
 const T = {
   bg: '#080C14',
@@ -97,7 +98,7 @@ function LibraryScene() {
                 key={doc.name}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 + i * 0.1, duration: 0.4, ease: [0.22,1,0.36,1] }}
+                transition={{ delay: (0.1 + i * 0.1) / SPEED, duration: 0.4 / SPEED, ease: [0.22,1,0.36,1] }}
                 style={{
                   background: T.surface, borderRadius: 9, padding: '9px 11px',
                   border: `1px solid ${isActive ? 'rgba(251,191,36,0.2)' : T.border}`,
@@ -149,15 +150,15 @@ function PdfScene() {
   const [quoteVisible, setQuoteVisible] = useState(false);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setHighlightVisible(true), 1400);
-    const t2 = setTimeout(() => setQuoteVisible(true), 2600);
+    const t1 = setTimeout(() => setHighlightVisible(true), 1400 / SPEED);
+    const t2 = setTimeout(() => setQuoteVisible(true), 2600 / SPEED);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}
-      transition={{ duration: 0.35, ease: [0.22,1,0.36,1] }}
+      transition={{ duration: 0.35 / SPEED, ease: [0.22,1,0.36,1] }}
       style={{ display: 'flex', height: '100%', background: T.bg }}
     >
       <VaultSidebar />
@@ -193,7 +194,7 @@ function PdfScene() {
                     <motion.span
                       initial={{ scaleX: 0, opacity: 0 }}
                       animate={{ scaleX: 1, opacity: 1 }}
-                      transition={{ duration: 0.4, ease: 'easeOut' }}
+                      transition={{ duration: 0.4 / SPEED, ease: 'easeOut' }}
                       style={{
                         position: 'absolute', inset: '-1px -2px', background: 'rgba(251,191,36,0.18)',
                         borderRadius: 3, transformOrigin: 'left', display: 'block', zIndex: 0,
@@ -214,7 +215,7 @@ function PdfScene() {
               <motion.div
                 initial={{ opacity: 0, x: 24 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, ease: [0.22,1,0.36,1] }}
+                transition={{ duration: 0.4 / SPEED, ease: [0.22,1,0.36,1] }}
                 style={{
                   position: 'absolute', right: 16, top: 18,
                   width: 180, background: T.surface,
@@ -237,7 +238,7 @@ function PdfScene() {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
+                  transition={{ delay: 0.3 / SPEED }}
                   style={{ marginTop: 8, background: T.accent, borderRadius: 5, padding: '3px 0', textAlign: 'center', fontSize: 9, fontWeight: 600, color: '#000' }}
                 >
                   Alıntıyı Kaydet
@@ -280,14 +281,14 @@ function CanvasScene() {
   const [edgesVisible, setEdgesVisible] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setEdgesVisible(true), 900);
+    const t = setTimeout(() => setEdgesVisible(true), 900 / SPEED);
     return () => clearTimeout(t);
   }, []);
 
   return (
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      transition={{ duration: 0.35 }}
+      transition={{ duration: 0.35 / SPEED }}
       style={{ display: 'flex', height: '100%', background: T.bg, position: 'relative', overflow: 'hidden' }}
     >
       <VaultSidebar />
@@ -325,7 +326,7 @@ function CanvasScene() {
                 strokeDasharray={length}
                 initial={{ strokeDashoffset: length, opacity: 0 }}
                 animate={edgesVisible ? { strokeDashoffset: 0, opacity: 1 } : {}}
-                transition={{ duration: 0.5, delay: i * 0.15, ease: 'easeInOut' }}
+                transition={{ duration: 0.5 / SPEED, delay: (i * 0.15) / SPEED, ease: 'easeInOut' }}
               />
             );
           })}
@@ -338,9 +339,9 @@ function CanvasScene() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1, y: [0, -3, 0] }}
             transition={{
-              opacity: { delay: 0.15 + i * 0.12, duration: 0.35 },
-              scale:   { delay: 0.15 + i * 0.12, duration: 0.35, ease: [0.22,1,0.36,1] },
-              y:       { delay: 1.5 + i * 0.2, duration: 3, repeat: Infinity, ease: 'easeInOut', repeatType: 'reverse' },
+              opacity: { delay: (0.15 + i * 0.12) / SPEED, duration: 0.35 / SPEED },
+              scale:   { delay: (0.15 + i * 0.12) / SPEED, duration: 0.35 / SPEED, ease: [0.22,1,0.36,1] },
+              y:       { delay: (1.5 + i * 0.2) / SPEED, duration: 3, repeat: Infinity, ease: 'easeInOut', repeatType: 'reverse' },
             }}
             style={{
               position: 'absolute',
@@ -376,7 +377,7 @@ function ExportScene() {
   const [selectedFormat, setSelectedFormat] = useState<'APA' | 'MLA' | 'BibTeX'>('APA');
 
   useEffect(() => {
-    const t = setTimeout(() => setCopied(true), 3200);
+    const t = setTimeout(() => setCopied(true), 3200 / SPEED);
     return () => clearTimeout(t);
   }, []);
 
@@ -385,7 +386,7 @@ function ExportScene() {
   return (
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, x: 16 }}
-      transition={{ duration: 0.35 }}
+      transition={{ duration: 0.35 / SPEED }}
       style={{ display: 'flex', height: '100%', background: T.bg }}
     >
       <VaultSidebar />
@@ -402,7 +403,7 @@ function ExportScene() {
       <motion.div
         initial={{ x: 48, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.45, delay: 0.15, ease: [0.22,1,0.36,1] }}
+        transition={{ duration: 0.45 / SPEED, delay: 0.15 / SPEED, ease: [0.22,1,0.36,1] }}
         style={{
           width: 260, borderLeft: `1px solid ${T.border}`, background: T.surface,
           display: 'flex', flexDirection: 'column', padding: '18px 16px', gap: 14,
@@ -444,7 +445,7 @@ function ExportScene() {
         <motion.button
           onClick={() => setCopied(true)}
           animate={copied ? { backgroundColor: 'rgba(52,211,153,0.15)', borderColor: '#34D399' } : {}}
-          transition={{ duration: 0.25 }}
+          transition={{ duration: 0.25 / SPEED }}
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
             padding: '8px 0', borderRadius: 8, border: `1px solid ${T.border}`,
