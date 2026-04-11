@@ -24,10 +24,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const params: { lang: string; slug: string }[] = [];
   const langs = ['en', 'tr'];
-  
+
   for (const lang of langs) {
     const slugs = getAllDocumentSlugs('legal', lang);
     for (const slug of slugs) {

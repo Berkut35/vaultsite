@@ -95,6 +95,11 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
         'x-default': `${APP_URL}/en`,
       },
     },
+    icons: {
+      icon: '/favicon.svg',
+      shortcut: '/favicon.svg',
+      apple: '/favicon.svg',
+    },
   };
 }
 

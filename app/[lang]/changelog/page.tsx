@@ -11,6 +11,8 @@ interface PageProps {
   params: Promise<{ lang: string }>;
 }
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return [{ lang: 'en' }, { lang: 'tr' }];
 }

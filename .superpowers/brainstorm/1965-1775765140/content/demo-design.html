@@ -1,0 +1,86 @@
+<h2>Animasyonlu Demo — 4 Sahne Tasarımı</h2>
+<p class="subtitle">Vault'un gerçek UI kodundan üretilen, otomatik ilerleyen demo bileşeni. Her sahne ~5 saniye, loop halinde çalışır.</p>
+
+<div class="section">
+  <p class="label">Sahne Akışı</p>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 0.75rem;">
+
+    <div style="background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.25); border-radius: 10px; padding: 1rem;">
+      <div style="display:flex; align-items:center; gap: 8px; margin-bottom: 0.5rem;">
+        <div style="background: #A855F7; color:#000; width:22px; height:22px; border-radius:50%; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center;">1</div>
+        <strong style="font-size: 13px;">Kütüphane Görünümü</strong>
+      </div>
+      <p style="font-size: 12px; color: #aaa; line-height: 1.6;">
+        Belge kartları sırayla animasyonla giriyor. "Okunuyor" durumundaki kart parlıyor, tıklanıyor gibi scale efekti oluyor. Durum rozeti (amber "Okunuyor") dikkat çekiyor.
+      </p>
+      <div style="margin-top: 0.5rem; font-size: 11px; color: #666;">⏱ 0s – 5s</div>
+    </div>
+
+    <div style="background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.25); border-radius: 10px; padding: 1rem;">
+      <div style="display:flex; align-items:center; gap: 8px; margin-bottom: 0.5rem;">
+        <div style="background: #A855F7; color:#000; width:22px; height:22px; border-radius:50%; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center;">2</div>
+        <strong style="font-size: 13px;">PDF Okuyucu & Alıntı</strong>
+      </div>
+      <p style="font-size: 12px; color: #aaa; line-height: 1.6;">
+        PDF görüntüleyici açılıyor (soldan slide-in). Bir paragraf üzerinde sarı highlight animasyonu beliriyor. Sağda küçük bir alıntı notu kartı görünüyor.
+      </p>
+      <div style="margin-top: 0.5rem; font-size: 11px; color: #666;">⏱ 5s – 10s</div>
+    </div>
+
+    <div style="background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.25); border-radius: 10px; padding: 1rem;">
+      <div style="display:flex; align-items:center; gap: 8px; margin-bottom: 0.5rem;">
+        <div style="background: #A855F7; color:#000; width:22px; height:22px; border-radius:50%; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center;">3</div>
+        <strong style="font-size: 13px;">Bilgi Grafiği Canvas</strong>
+      </div>
+      <p style="font-size: 12px; color: #aaa; line-height: 1.6;">
+        Canvas açılıyor. Düğümler (doc, quote, note tipleri) birer birer belirir. Aralarında SVG kenar çizgileri animasyonla çiziliyor (stroke-dashoffset efekti).
+      </p>
+      <div style="margin-top: 0.5rem; font-size: 11px; color: #666;">⏱ 10s – 15s</div>
+    </div>
+
+    <div style="background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.25); border-radius: 10px; padding: 1rem;">
+      <div style="display:flex; align-items:center; gap: 8px; margin-bottom: 0.5rem;">
+        <div style="background: #A855F7; color:#000; width:22px; height:22px; border-radius:50%; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center;">4</div>
+        <strong style="font-size: 13px;">Dışa Aktarım & Atıf</strong>
+      </div>
+      <p style="font-size: 12px; color: #aaa; line-height: 1.6;">
+        Sağ panel kayarak giriyor: "Export Citations" başlığı, APA/MLA/BibTeX format seçenekleri, kopyalama butonu flash efekti. Başarı tick animasyonu.
+      </p>
+      <div style="margin-top: 0.5rem; font-size: 11px; color: #666;">⏱ 15s – 20s → Loop</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section" style="margin-top: 1.5rem;">
+  <p class="label">Teknik Yapı</p>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 0.75rem;">
+    <div style="font-size: 12px; color: #aaa; line-height: 1.8;">
+      <strong style="color: #F0F0F0; display:block; margin-bottom: 4px;">Yeni Dosya</strong>
+      <code style="background: rgba(168,85,247,0.1); padding: 2px 6px; border-radius: 4px; color: #A855F7;">components/AnimatedDemo.tsx</code>
+      <br><br>
+      Mevcut <code style="color:#888">AppMockup.tsx</code>'e dokunulmaz. Yeni bileşen, Hero'da "Demo İzle" butonuna bağlı bir <strong>modal</strong> içinde gösterilir.
+    </div>
+    <div style="font-size: 12px; color: #aaa; line-height: 1.8;">
+      <strong style="color: #F0F0F0; display:block; margin-bottom: 4px;">Kullanılan Teknolojiler</strong>
+      Framer Motion (zaten yüklü) · SVG stroke-dashoffset animasyonu · Vault tema renkleri (dark theme) · useEffect ile sahne zamanlayıcısı · Erişilebilir: prefers-reduced-motion desteği
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 1.5rem;">
+  <p class="label">Hero Entegrasyonu — Değişiklik</p>
+  <div style="font-size: 12px; color: #aaa; line-height: 1.8; margin-top: 0.5rem;">
+    <strong style="color: #F0F0F0;">Hero.tsx'de yapılacak:</strong> İkinci CTA butonu
+    <code style="color: #888;">"See How It Works"</code> → <code style="color: #A855F7;">"▶ Demo İzle"</code> olarak değiştirilir.
+    Tıklandığında <code style="color: #A855F7;">AnimatedDemo</code> bileşenini içeren bir modal açılır.
+    Modal: backdrop blur + centered layout, ESC/dışarı tıkla kapanır.
+    <br><br>
+    <strong style="color: #F0F0F0;">i18n:</strong> TR/EN çevirileri <code>lib/i18n.tsx</code>'e eklenecek
+    (<code>"watchDemo": "Demo İzle"</code> / <code>"Watch Demo"</code>).
+  </div>
+</div>
+
+<div style="text-align:center; margin-top:1.5rem; padding: 0.75rem; background: rgba(168,85,247,0.06); border-radius: 8px; border: 1px solid rgba(168,85,247,0.15);">
+  <p style="font-size: 12px; color: #888;">Bu tasarım onaylandı mı? Onaylarsan plan dosyasını yazıp implementasyona geçeceğiz.</p>
+</div>

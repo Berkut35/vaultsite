@@ -1,0 +1,51 @@
+
+> vault-landing@1.0.0 build
+> next build
+
+   ▲ Next.js 15.5.14
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 4.8s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/18) ...
+   Generating static pages (4/18) 
+   Generating static pages (8/18) 
+   Generating static pages (13/18) 
+ ✓ Generating static pages (18/18)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /_not-found                            993 B         103 kB
+├ ƒ /[lang]                              24.8 kB         246 kB
+├ ƒ /[lang]/blog                           192 B         221 kB
+├ ● /[lang]/blog/[slug]                    192 B         221 kB
+├   ├ /en/blog/why-we-built-vault
+├   └ /tr/blog/why-we-built-vault
+├ ƒ /[lang]/changelog                      192 B         221 kB
+├ ƒ /[lang]/docs                           192 B         221 kB
+├ ● /[lang]/docs/[slug]                    192 B         221 kB
+├   ├ /en/docs/getting-started
+├   └ /tr/docs/getting-started
+├ ● /[lang]/legal/[slug]                   192 B         221 kB
+├   ├ /en/legal/cookies
+├   ├ /en/legal/kvkk
+├   ├ /en/legal/privacy
+├   └ [+5 more paths]
+├ ƒ /auth/callback                         129 B         102 kB
+├ ○ /robots.txt                            129 B         102 kB
+└ ○ /sitemap.xml                           129 B         102 kB
++ First Load JS shared by all             102 kB
+  ├ chunks/255-38b49df12a94ee57.js         46 kB
+  ├ chunks/4bd1b696-c023c6e3521b1417.js  54.2 kB
+  └ other shared chunks (total)          1.99 kB
+
+
+ƒ Middleware                             86.7 kB
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+

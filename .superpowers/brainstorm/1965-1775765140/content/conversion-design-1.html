@@ -1,0 +1,70 @@
+<h2>Full Funnel Tasarımı — Bölüm 1/4: Hero & Sosyal Kanıt</h2>
+<p class="subtitle">Mevcut Hero'yu karşılaştıralım. Hangi değişiklikler yapılacak?</p>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">🔴 Mevcut Hero</div>
+    <div class="mockup-body" style="padding: 1.5rem; font-size: 12px;">
+      <div style="text-align:center; margin-bottom: 1rem;">
+        <div style="font-size: 10px; color: #888; margin-bottom: 0.5rem;">EYEBROW LABEL</div>
+        <div style="font-size: 18px; font-weight: 700; color: #F0F0F0; line-height: 1.2;">Research Without<br><span style="color: #A855F7;">The Chaos.</span></div>
+        <div style="font-size: 11px; color: #888; margin: 0.75rem 0;">Subtitle text burada</div>
+        <div style="display:flex; gap:8px; justify-content:center; margin-bottom: 1rem;">
+          <div class="mock-button" style="font-size:11px; padding:6px 12px;">⬇ Download</div>
+          <div class="mock-button" style="font-size:11px; padding:6px 12px; background:transparent; border:1px solid #333;">See How</div>
+        </div>
+        <div style="font-size: 10px; color: #666;">★★★★★ X,XXX araştırmacı</div>
+      </div>
+      <div style="background: #111; border-radius: 8px; height: 80px; display:flex; align-items:center; justify-content:center; color: #444; font-size: 11px;">
+        AppMockup (statik görsel)
+      </div>
+      <div style="margin-top: 0.75rem; display:flex; gap:6px; justify-content:center; opacity: 0.4;">
+        <div style="background:#222; border-radius:4px; width:40px; height:16px;"></div>
+        <div style="background:#222; border-radius:4px; width:40px; height:16px;"></div>
+        <div style="background:#222; border-radius:4px; width:40px; height:16px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mockup">
+    <div class="mockup-header">✅ Yeni Hero</div>
+    <div class="mockup-body" style="padding: 1.5rem; font-size: 12px;">
+      <div style="text-align:center; margin-bottom: 0.75rem;">
+        <div style="font-size: 10px; color: #888; margin-bottom: 0.5rem;">EYEBROW LABEL</div>
+        <div style="font-size: 18px; font-weight: 700; color: #F0F0F0; line-height: 1.2;">Research Without<br><span style="color: #A855F7;">The Chaos.</span></div>
+        <div style="font-size: 11px; color: #888; margin: 0.5rem 0;">Subtitle text</div>
+        <div style="display:flex; gap:8px; justify-content:center; margin-bottom: 0.5rem;">
+          <div class="mock-button" style="font-size:11px; padding:6px 12px;">⬇ Download</div>
+          <div class="mock-button" style="font-size:11px; padding:6px 12px; background:transparent; border:1px solid #333;">▶ Demo İzle</div>
+        </div>
+        <div style="font-size: 10px; color: #888; margin-bottom: 0.5rem;">
+          <span style="color: #A855F7; font-weight: 600;">↑ 1,240</span> bu hafta indirdi
+        </div>
+      </div>
+      <div style="background: #111; border-radius: 8px; height: 80px; display:flex; align-items:center; justify-content:center; border: 1px solid rgba(168,85,247,0.3); position:relative; overflow:hidden;">
+        <div style="font-size: 11px; color: #A855F7;">▶ Uygulama Demo (30sn GIF/Video)</div>
+        <div style="position:absolute; inset:0; background: linear-gradient(135deg, rgba(168,85,247,0.05), transparent);"></div>
+      </div>
+      <div style="margin-top: 0.5rem; display:flex; gap:4px; justify-content:center;">
+        <div style="background:#1a1a1a; border:1px solid #222; border-radius:4px; padding: 2px 8px; font-size:9px; color:#888;">MIT</div>
+        <div style="background:#1a1a1a; border:1px solid #222; border-radius:4px; padding: 2px 8px; font-size:9px; color:#888;">Boğaziçi</div>
+        <div style="background:#1a1a1a; border:1px solid #222; border-radius:4px; padding: 2px 8px; font-size:9px; color:#888;">ODTÜ</div>
+        <div style="background:#1a1a1a; border:1px solid #222; border-radius:4px; padding: 2px 8px; font-size:9px; color:#888;">+47 üniversite</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 1.5rem;">
+  <p class="label">Bu bölümde yapılacak değişiklikler</p>
+  <ul style="font-size: 13px; color: #aaa; margin-top: 0.5rem; line-height: 1.8;">
+    <li><strong style="color:#F0F0F0;">Hero ikinci CTA:</strong> "See How It Works" → <strong>"▶ Demo İzle"</strong> — modal içinde 30sn ekran kaydı veya animasyonlu GIF</li>
+    <li><strong style="color:#F0F0F0;">Dinamik indirme sayacı:</strong> Supabase'den gerçek indirme sayısı veya sabit ama inandırıcı bir rakam ("bu hafta X indirdi")</li>
+    <li><strong style="color:#F0F0F0;">Üniversite logolarını etiket olarak göster:</strong> "X, Y, Z üniversitelerinden araştırmacılar kullanıyor" — mevcut marquee'nin üstüne kısa etiket listesi</li>
+    <li><strong style="color:#F0F0F0;">Testimonial fotoğrafları:</strong> Unsplash stock → gerçek kullanıcı avatarları (yoksa initial/avatar generator)</li>
+  </ul>
+</div>
+
+<div style="text-align:center; margin-top:1.5rem; padding: 0.75rem; background: rgba(168,85,247,0.06); border-radius: 8px; border: 1px solid rgba(168,85,247,0.15);">
+  <p style="font-size: 12px; color: #888;">Bu bölüm doğru görünüyor mu? Sonraki: Pricing (Academic tier) →</p>
+</div>

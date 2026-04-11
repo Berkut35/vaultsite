@@ -86,7 +86,7 @@ Orb 3: sabit
   - `strokeWidth`: `1`
   - `strokeDasharray` + `strokeDashoffset`: bölüm `inView` olduğunda 0'a animasyonlanır
   - Süre: `0.8s ease-out`
-- Framer Motion `motion.line` veya `useEffect` + CSS transition ile çizilir
+- Framer Motion `motion.line` ile çizilir (`initial={{ pathLength: 0 }}` → `animate={{ pathLength: 1 }}`)
 
 **b) Step badge'leri:**
 - Her adımın ikon container'ı (`44x44px` mor daire) `inView` tetiklenince sırayla pulse animasyonu yapar:
