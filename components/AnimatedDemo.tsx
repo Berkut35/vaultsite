@@ -417,6 +417,197 @@ function PdfScene() {
   );
 }
 
+// ── Scene 4: Metadata & Citation ─────────────────────────────────────────────
+const META_EXISTING_DOCS = [
+  { name: 'Bilişsel Gelişim Kuramı - Piaget', ext: 'PDF', tag: 'Psikoloji' },
+  { name: 'Eğitim Psikolojisi Notları',       ext: 'DOCX', tag: 'Eğitim' },
+  { name: 'Gelişim Psikolojisi Araştırması',   ext: 'PDF', tag: 'Psikoloji' },
+];
+
+function MetadataScene() {
+  const [dropped, setDropped] = useState(false);
+  const [scanning, setScanning] = useState(false);
+  const [found, setFound] = useState(false);
+  const [metaLabels, setMetaLabels] = useState(false);
+  const [renamed, setRenamed] = useState(false);
+  const [toast, setToast] = useState(false);
+  const [citation, setCitation] = useState(false);
+
+  useEffect(() => {
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    timers.push(setTimeout(() => setDropped(true), 400 / SPEED));
+    timers.push(setTimeout(() => setScanning(true), 800 / SPEED));
+    timers.push(setTimeout(() => { setScanning(false); setFound(true); }, 1600 / SPEED));
+    timers.push(setTimeout(() => setMetaLabels(true), 1800 / SPEED));
+    timers.push(setTimeout(() => setRenamed(true), 2400 / SPEED));
+    timers.push(setTimeout(() => setToast(true), 3200 / SPEED));
+    timers.push(setTimeout(() => setCitation(true), 3800 / SPEED));
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  const oldName = 'article_final_v3.pdf';
+  const newName = 'Yapay Sinir Ağları ile Duygu Analizi - Kılıç.pdf';
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }}
+      transition={{ duration: 0.3 }}
+      style={{ display: 'flex', height: '100%', background: T.bg }}
+    >
+      <VaultSidebar />
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, position: 'relative' }}>
+        {/* Header */}
+        <div style={{ height: 48, borderBottom: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', padding: '0 18px', gap: 10, flexShrink: 0 }}>
+          <span style={{ fontSize: 14, fontWeight: 600, color: T.text }}>Library</span>
+          <span style={{ width: 1, height: 13, background: T.border }} />
+          <span style={{ fontSize: 11, color: T.sub }}>{META_EXISTING_DOCS.length + (dropped ? 1 : 0)} öğe</span>
+        </div>
+
+        {/* Document grid */}
+        <div style={{ flex: 1, padding: 14, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 9, alignContent: 'start', overflow: 'hidden' }}>
+          {/* Existing documents */}
+          {META_EXISTING_DOCS.map((doc, i) => (
+            <motion.div
+              key={doc.name}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: (0.08 + i * 0.08) / SPEED, duration: 0.32 / SPEED, ease: [0.22,1,0.36,1] }}
+              style={{
+                background: T.surface, borderRadius: 9, padding: '9px 11px',
+                border: `1px solid ${T.border}`, borderLeft: `2.5px solid #64748B`,
+              }}
+            >
+              <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                <div style={{ flexShrink: 0, width: 24, height: 32, borderRadius: 4, background: T.muted, border: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontSize: 7, fontWeight: 700, color: T.accent }}>{doc.ext}</span>
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: T.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: 4 }}>{doc.name}</div>
+                  <span style={{ fontSize: 8.5, padding: '1px 5px', borderRadius: 5, background: `${T.accent}14`, border: `1px solid ${T.accent}30`, color: T.accent }}>{doc.tag}</span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+
+          {/* New document card — drops in */}
+          <AnimatePresence>
+            {dropped && (
+              <motion.div
+                initial={{ opacity: 0, y: -40, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                style={{
+                  background: T.surface, borderRadius: 9, padding: '9px 11px',
+                  border: `1px solid ${found ? T.accentGreen + '40' : T.accent + '40'}`,
+                  borderLeft: `2.5px solid ${found ? T.accentGreen : T.accent}`,
+                  boxShadow: found ? `0 0 16px rgba(52,211,153,0.1)` : `0 0 16px rgba(167,139,250,0.1)`,
+                  transition: `border-color ${0.3 / SPEED}s, box-shadow ${0.3 / SPEED}s`,
+                }}
+              >
+                <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                  <div style={{ flexShrink: 0, width: 24, height: 32, borderRadius: 4, background: T.muted, border: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                    <span style={{ fontSize: 7, fontWeight: 700, color: T.accent }}>PDF</span>
+                    {/* Spinner */}
+                    {scanning && (
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 0.52 / SPEED, repeat: Infinity, ease: 'linear' }}
+                        style={{ position: 'absolute', inset: -3, borderRadius: 6, border: `1.5px solid transparent`, borderTopColor: T.accent, pointerEvents: 'none' }}
+                      />
+                    )}
+                    {/* Checkmark */}
+                    {found && !scanning && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: 'spring', stiffness: 500, damping: 20 }}
+                        style={{ position: 'absolute', top: -4, right: -4, width: 12, height: 12, borderRadius: '50%', background: T.accentGreen, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                      >
+                        <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
+                      </motion.div>
+                    )}
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    {/* Slot-machine name */}
+                    <div style={{ height: 14, overflow: 'hidden', marginBottom: 4, position: 'relative' }}>
+                      <motion.div
+                        animate={renamed ? { y: -16 } : { y: 0 }}
+                        transition={{ duration: 0.4 / SPEED, ease: [0.22,1,0.36,1] }}
+                      >
+                        <div style={{ fontSize: 11, fontWeight: 600, color: T.sub, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', height: 14, lineHeight: '14px' }}>{oldName}</div>
+                        <div style={{ fontSize: 11, fontWeight: 600, color: T.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', height: 14, lineHeight: '14px', marginTop: 2 }}>{newName}</div>
+                      </motion.div>
+                    </div>
+
+                    {/* Metadata labels */}
+                    {metaLabels && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 3 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2 / SPEED }}
+                        style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 4 }}
+                      >
+                        <span style={{ fontSize: 7.5, padding: '1px 5px', borderRadius: 4, background: 'rgba(96,165,250,0.1)', border: '1px solid rgba(96,165,250,0.22)', color: '#60A5FA' }}>DOI: 10.1016/j.neunet</span>
+                        <motion.span
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.16 / SPEED, duration: 0.2 / SPEED }}
+                          style={{ fontSize: 7.5, padding: '1px 5px', borderRadius: 4, background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.22)', color: T.accentGreen }}
+                        >
+                          Crossref ✓
+                        </motion.span>
+                      </motion.div>
+                    )}
+
+                    {/* Scanning label */}
+                    {scanning && (
+                      <span style={{ fontSize: 8, color: T.accent, opacity: 0.8 }}>Metadata taranıyor...</span>
+                    )}
+
+                    {/* Citation preview */}
+                    {citation && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        transition={{ duration: 0.28 / SPEED }}
+                        style={{ padding: '4px 6px', background: `${T.accentGreen}08`, borderRadius: 4, border: `1px solid ${T.accentGreen}18`, overflow: 'hidden' }}
+                      >
+                        <p style={{ fontSize: 8, color: T.text, lineHeight: 1.5, margin: 0, opacity: 0.8, fontStyle: 'italic' }}>
+                          Kılıç, A. (2024). <em>Yapay Sinir Ağları ile Duygu Analizi</em>. Neural Networks, 45(2), 112-128.
+                        </p>
+                      </motion.div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Toast notification */}
+        <AnimatePresence>
+          {toast && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.22 / SPEED, ease: [0.34,1.56,0.64,1] }}
+              style={{
+                position: 'absolute', bottom: 14, left: '50%', transform: 'translateX(-50%)',
+                background: T.surface, border: `1px solid ${T.accentGreen}30`,
+                borderRadius: 8, padding: '7px 14px', display: 'flex', alignItems: 'center', gap: 7,
+                boxShadow: `0 4px 20px rgba(0,0,0,0.4)`, zIndex: 10,
+              }}
+            >
+              <span style={{ fontSize: 12 }}>📚</span>
+              <span style={{ fontSize: 10, color: T.text }}>Referans kütüphanesine eklendi</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
+  );
+}
+
 // ── Scene 3: Canvas ───────────────────────────────────────────────────────────
 const CANVAS_NODES = [
   { id: 1, type: 'doc',   label: 'Bilimsel Devrimler', x: 110, y: 80,  color: '#A78BFA', iconColor: '#A78BFA' },
@@ -646,7 +837,7 @@ function ExportScene() {
 
 // ── AnimatedDemo Modal ────────────────────────────────────────────────────────
 const SCENE_LABELS = ['Kütüphane', 'PDF & Alıntı', 'Bilgi Grafiği', 'Dışa Aktarım'];
-const SCENES = [LibraryScene, PdfScene, CanvasScene, ExportScene];
+const SCENES = [LibraryScene, PdfScene, MetadataScene, CanvasScene, ExportScene];
 
 interface AnimatedDemoProps {
   onClose: () => void;
