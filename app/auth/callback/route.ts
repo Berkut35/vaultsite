@@ -5,22 +5,10 @@ import { cookies } from 'next/headers';
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
-  const code        = searchParams.get('code');
-  const token_hash  = searchParams.get('token_hash');
-  const type        = searchParams.get('type') as string | null;
-  const next        = searchParams.get('next') ?? '/';
-
-  // ── Password recovery: pass token_hash to client so it can call verifyOtp ───
-  // Server-side verifyOtp stores session in cookies; client uses localStorage.
-  // We let the client handle verifyOtp to keep the session in localStorage.
-  if (token_hash && type === 'recovery') {
-    const params = new URLSearchParams({
-      reset_password: '1',
-      token_hash,
-      type,
-    });
-    return NextResponse.redirect(`${origin}${next}?${params.toString()}`);
-  }
+  const code       = searchParams.get('code');
+  const token_hash = searchParams.get('token_hash');
+  const type       = searchParams.get('type') as string | null;
+  const next       = searchParams.get('next') ?? '/';
 
   const cookieStore = await cookies();
 
@@ -40,7 +28,8 @@ export async function GET(request: NextRequest) {
     }
   );
 
-  // ── token_hash flow (email confirmation, magic link OTP, etc.) ───────────────
+  // ── token_hash flow (email confirmation, magic link OTP, invite, etc.) ───────
+  // Note: password recovery uses /[lang]/reset-password page directly — not here.
   if (token_hash && type) {
     const { error } = await supabase.auth.verifyOtp({
       token_hash,
@@ -53,12 +42,7 @@ export async function GET(request: NextRequest) {
   // ── code flow (PKCE: magic link, OAuth) ──────────────────────────────────────
   if (code) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
-    if (!error) {
-      const isRecovery = type === 'recovery';
-      return NextResponse.redirect(
-        isRecovery ? `${origin}${next}?reset_password=1` : `${origin}${next}`
-      );
-    }
+    if (!error) return NextResponse.redirect(`${origin}${next}`);
   }
 
   return NextResponse.redirect(`${origin}/?auth_error=1`);

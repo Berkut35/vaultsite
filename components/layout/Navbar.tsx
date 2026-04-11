@@ -319,36 +319,11 @@ function NavbarInner() {
   const [authMode,   setAuthMode]   = useState<'signin' | 'signup' | 'reset'>('signin');
   const [activeHref, setActiveHref] = useState('');
 
-  // Detect reset_password param — call verifyOtp client-side if token_hash present
+  // Detect reset_password param (legacy fallback — primary flow uses /reset-password page)
   useEffect(() => {
-    if (searchParams?.get('reset_password') !== '1') return;
-
-    const token_hash = searchParams.get('token_hash');
-    const type       = searchParams.get('type');
-
-    if (token_hash && type === 'recovery') {
-      // Verify the recovery OTP client-side so session lands in localStorage
-      getSupabase()
-        .auth.verifyOtp({ token_hash, type: 'recovery' })
-        .then(({ error }) => {
-          if (!error) {
-            setAuthMode('reset');
-            setAuthOpen(true);
-          }
-          // Clean up URL params regardless of outcome
-          const url = new URL(window.location.href);
-          url.searchParams.delete('reset_password');
-          url.searchParams.delete('token_hash');
-          url.searchParams.delete('type');
-          window.history.replaceState({}, '', url.toString());
-        });
-    } else {
-      // reset_password=1 without token_hash (e.g. already verified session)
+    if (searchParams?.get('reset_password') === '1') {
       setAuthMode('reset');
       setAuthOpen(true);
-      const url = new URL(window.location.href);
-      url.searchParams.delete('reset_password');
-      window.history.replaceState({}, '', url.toString());
     }
   }, [searchParams]);
 

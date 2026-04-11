@@ -63,7 +63,7 @@ export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModal
         else setSuccess(a.emailSent);
       } else if (mode === 'forgot') {
         const { error: err } = await sb.auth.resetPasswordForEmail(email, {
-          redirectTo: `${window.location.origin}/auth/callback?type=recovery`,
+          redirectTo: `${window.location.origin}/${lang}/reset-password`,
         });
         if (err) throw err;
         setSuccess(a.resetEmailSent);
