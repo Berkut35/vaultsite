@@ -16,7 +16,7 @@ export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModal
   const { t, lang } = useLang();
   const a = t.auth;
 
-  const [mode, setMode]       = useState<'signin' | 'signup'>(initialMode);
+  const [mode, setMode]       = useState<'signin' | 'signup' | 'forgot' | 'reset'>(initialMode);
   const [email, setEmail]     = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
@@ -44,13 +44,9 @@ export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModal
       if (mode === 'signin') {
         const { data, error: err } = await sb.auth.signInWithPassword({ email, password });
         if (err) throw err;
-        // Sync locale to DB so Vault desktop and website stay in sync
         if (data.user) await syncLocale(data.user.id, lang);
         onClose();
-      } else {
-        // Signup: pass full_name + locale as metadata.
-        // on_auth_user_created trigger reads raw_user_meta_data->>'full_name'
-        // and automatically inserts profiles + subscriptions rows.
+      } else if (mode === 'signup') {
         const { data, error: err } = await sb.auth.signUp({
           email,
           password,
@@ -63,13 +59,19 @@ export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModal
           },
         });
         if (err) throw err;
-
-        // If email confirmation is disabled in Supabase, user is returned immediately
-        if (data.session) {
-          onClose();
-        } else {
-          setSuccess(a.emailSent);
-        }
+        if (data.session) onClose();
+        else setSuccess(a.emailSent);
+      } else if (mode === 'forgot') {
+        const { error: err } = await sb.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/auth/callback?type=recovery`,
+        });
+        if (err) throw err;
+        setSuccess(a.resetEmailSent);
+      } else if (mode === 'reset') {
+        const { error: err } = await sb.auth.updateUser({ password });
+        if (err) throw err;
+        setSuccess(a.passwordUpdated);
+        setTimeout(() => { setMode('signin'); reset(); }, 2000);
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : a.errorGeneric;
@@ -167,21 +169,33 @@ export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModal
                     VAULT
                   </div>
                   <div className="text-xs" style={{ color: 'var(--muted)', marginTop: 1 }}>
-                    {mode === 'signin' ? a.signin : a.signup}
+                    {mode === 'signin' ? a.signin : mode === 'signup' ? a.signup : mode === 'forgot' ? a.resetPassword : a.updatePassword}
                   </div>
                 </div>
               </div>
 
               {/* Mode switch */}
               <p className="text-sm mb-6" style={{ color: 'var(--muted)' }}>
-                {mode === 'signin' ? a.noAccount : a.hasAccount}{' '}
-                <button
-                  onClick={() => { setMode(mode === 'signin' ? 'signup' : 'signin'); reset(); }}
-                  className="font-medium transition-colors"
-                  style={{ color: 'var(--accent)' }}
-                >
-                  {mode === 'signin' ? a.signupBtn : a.signinBtn}
-                </button>
+                {mode === 'forgot' || mode === 'reset' ? (
+                  <button
+                    onClick={() => { setMode('signin'); reset(); }}
+                    className="font-medium transition-colors"
+                    style={{ color: 'var(--accent)' }}
+                  >
+                    ← {a.backToSignin}
+                  </button>
+                ) : (
+                  <>
+                    {mode === 'signin' ? a.noAccount : a.hasAccount}{' '}
+                    <button
+                      onClick={() => { setMode(mode === 'signin' ? 'signup' : 'signin'); reset(); }}
+                      className="font-medium transition-colors"
+                      style={{ color: 'var(--accent)' }}
+                    >
+                      {mode === 'signin' ? a.signupBtn : a.signinBtn}
+                    </button>
+                  </>
+                )}
               </p>
 
               {/* Alerts */}
@@ -229,27 +243,31 @@ export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModal
                   )}
                 </AnimatePresence>
 
-                {/* Email */}
-                <div className="relative">
-                  <Mail size={13} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--muted)' }} />
-                  <input
-                    type="email" value={email} onChange={e => setEmail(e.target.value)}
-                    placeholder={a.email} required autoComplete="email"
-                    className={inputClass} style={inputStyle}
-                    onFocus={onFocus} onBlur={onBlur}
-                  />
-                </div>
+                {/* Email — not for reset mode */}
+                {mode !== 'reset' && (
+                  <div className="relative">
+                    <Mail size={13} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--muted)' }} />
+                    <input
+                      type="email" value={email} onChange={e => setEmail(e.target.value)}
+                      placeholder={a.email} required autoComplete="email"
+                      className={inputClass} style={inputStyle}
+                      onFocus={onFocus} onBlur={onBlur}
+                    />
+                  </div>
+                )}
 
-                {/* Password */}
-                <div className="relative">
-                  <Lock size={13} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--muted)' }} />
-                  <input
-                    type="password" value={password} onChange={e => setPassword(e.target.value)}
-                    placeholder={a.password} required minLength={6} autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
-                    className={inputClass} style={inputStyle}
-                    onFocus={onFocus} onBlur={onBlur}
-                  />
-                </div>
+                {/* Password — not for forgot mode */}
+                {mode !== 'forgot' && (
+                  <div className="relative">
+                    <Lock size={13} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--muted)' }} />
+                    <input
+                      type="password" value={password} onChange={e => setPassword(e.target.value)}
+                      placeholder={mode === 'reset' ? 'New Password' : a.password} required minLength={6} autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
+                      className={inputClass} style={inputStyle}
+                      onFocus={onFocus} onBlur={onBlur}
+                    />
+                  </div>
+                )}
 
                 {mode === 'signup' && (
                   <div className="flex items-start gap-2 px-1 py-1">
@@ -283,7 +301,11 @@ export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModal
 
                 {mode === 'signin' && (
                   <div className="text-right -mt-1">
-                    <button type="button" className="text-xs transition-colors" style={{ color: 'var(--muted)' }}
+                    <button
+                      type="button"
+                      onClick={() => { setMode('forgot'); reset(); }}
+                      className="text-xs transition-colors"
+                      style={{ color: 'var(--muted)' }}
                       onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
                       onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted)')}
                     >
@@ -307,41 +329,44 @@ export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModal
                 >
                   {loading && <Loader2 size={14} className="animate-spin" />}
                   {loading
-                    ? (mode === 'signin' ? a.signingIn : a.creatingAccount)
-                    : (mode === 'signin' ? a.signinBtn  : a.signupBtn)
+                    ? (mode === 'signin' ? a.signingIn : mode === 'signup' ? a.creatingAccount : mode === 'forgot' ? 'Sending...' : a.updatingPassword)
+                    : (mode === 'signin' ? a.signinBtn  : mode === 'signup' ? a.signupBtn : mode === 'forgot' ? a.sendResetLink : a.updatePassword)
                   }
                 </button>
               </form>
 
-              {/* Divider */}
-              <div className="flex items-center gap-3 my-4">
-                <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.07)' }} />
-                <span className="text-xs" style={{ color: 'var(--muted)' }}>{a.orContinue}</span>
-                <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.07)' }} />
-              </div>
+              {/* Divider (not for reset mode) */}
+              {mode !== 'reset' && (
+                <>
+                  <div className="flex items-center gap-3 my-4">
+                    <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.07)' }} />
+                    <span className="text-xs" style={{ color: 'var(--muted)' }}>{a.orContinue}</span>
+                    <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.07)' }} />
+                  </div>
 
-              {/* Magic link */}
-              <button
-                onClick={handleMagicLink} disabled={loading}
-                className="w-full py-2.5 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2"
-                style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.09)',
-                  color: 'var(--text)',
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                }}
-                onMouseEnter={e => { if (!loading) e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
-                onMouseLeave={e => { if (!loading) e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
-              >
-                <Mail size={14} />
-                Magic Link
-              </button>
-
-
+                  {/* Magic link */}
+                  <button
+                    onClick={handleMagicLink} disabled={loading}
+                    className="w-full py-2.5 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2"
+                    style={{
+                      background: 'rgba(255,255,255,0.04)',
+                      border: '1px solid rgba(255,255,255,0.09)',
+                      color: 'var(--text)',
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                    }}
+                    onMouseEnter={e => { if (!loading) e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
+                    onMouseLeave={e => { if (!loading) e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
+                  >
+                    <Mail size={14} />
+                    Magic Link
+                  </button>
+                </>
+              )}
             </div>
           </motion.div>
         </>
       )}
     </AnimatePresence>
+esence>
   );
 }

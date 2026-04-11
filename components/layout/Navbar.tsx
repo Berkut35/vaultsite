@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Menu, X, Globe, LogOut, Zap, Crown, ChevronDown } from 'lucide-react';
 import { AuthModal } from '../AuthModal';
@@ -294,6 +294,7 @@ function ProfileDropdown({ user, data, onSignOut, n }: ProfileDropdownProps) {
 export function Navbar() {
   const { lang, setLang, t } = useLang();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const n = t.nav;
 
   const getHref = (href: string) => {
@@ -307,7 +308,16 @@ export function Navbar() {
   const [scrolled,   setScrolled]   = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [authOpen,   setAuthOpen]   = useState(false);
+  const [authMode,   setAuthMode]   = useState<'signin' | 'signup' | 'reset'>('signin');
   const [activeHref, setActiveHref] = useState('');
+
+  // Detect reset_password param
+  useEffect(() => {
+    if (searchParams?.get('reset_password') === '1') {
+      setAuthMode('reset');
+      setAuthOpen(true);
+    }
+  }, [searchParams]);
 
   // Auth state
   const [user,     setUser]     = useState<User | null>(null);
@@ -456,18 +466,19 @@ export function Navbar() {
               /* Logged-out: sign in + CTA */
               <>
                 <button
-                  onClick={() => setAuthOpen(true)}
+                  onClick={() => { setAuthMode('signin'); setAuthOpen(true); }}
                   style={{ padding: '7px 16px', borderRadius: 8, fontSize: 13.5, fontWeight: 400, color: '#F0F0F0', background: 'transparent', border: '1px solid var(--border-subtle)', cursor: 'pointer', transition: 'all 0.2s ease', fontFamily: '"DM Sans", sans-serif' }}
                   onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)'; }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'var(--border-subtle)'; }}
                 >
                   {n.signin}
                 </button>
-                <DownloadButton
-                  style={{ padding: '7px 18px', borderRadius: 999, fontSize: 13.5, fontWeight: 600, color: '#fff', background: '#A855F7', fontFamily: '"DM Sans", sans-serif', letterSpacing: '-0.01em' }}
+                <button
+                  onClick={() => { setAuthMode('signup'); setAuthOpen(true); }}
+                   style={{ padding: '7px 18px', borderRadius: 999, fontSize: 13.5, fontWeight: 600, color: '#fff', background: '#A855F7', fontFamily: '"DM Sans", sans-serif', border: 'none', cursor: 'pointer', letterSpacing: '-0.01em' }}
                 >
                   {n.startFree}
-                </DownloadButton>
+                </button>
               </>
             )}
           </div>
@@ -545,16 +556,17 @@ export function Navbar() {
                 </>
               ) : (
                 <>
-                  <button onClick={() => { setAuthOpen(true); setMobileOpen(false); }}
+                  <button onClick={() => { setAuthMode('signin'); setAuthOpen(true); setMobileOpen(false); }}
                     style={{ padding: '10px 14px', borderRadius: 8, fontSize: 14, color: 'rgba(240,240,240,0.8)', background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: '"DM Sans", sans-serif' }}
                   >
                     {n.signin}
                   </button>
-                  <DownloadButton
-                    style={{ margin: '4px 6px 0', padding: '10px 14px', borderRadius: 8, fontSize: 14, fontWeight: 600, color: '#fff', background: '#A855F7', textAlign: 'center', fontFamily: '"DM Sans", sans-serif', justifyContent: 'center', width: 'calc(100% - 12px)' }}
+                  <button
+                    onClick={() => { setAuthMode('signup'); setAuthOpen(true); setMobileOpen(false); }}
+                    style={{ margin: '4px 6px 0', padding: '10px 14px', borderRadius: 8, fontSize: 14, fontWeight: 600, color: '#fff', background: '#A855F7', textAlign: 'center', fontFamily: '"DM Sans", sans-serif', justifyContent: 'center', width: 'calc(100% - 12px)', border: 'none', cursor: 'pointer' }}
                   >
                     {n.startFree}
-                  </DownloadButton>
+                  </button>
                 </>
               )}
             </motion.div>
@@ -562,7 +574,12 @@ export function Navbar() {
         </AnimatePresence>
       </motion.header>
 
-      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
+      <AuthModal
+        key={authMode}
+        isOpen={authOpen}
+        initialMode={authMode}
+        onClose={() => setAuthOpen(false)}
+      />
     </>
   );
 }
