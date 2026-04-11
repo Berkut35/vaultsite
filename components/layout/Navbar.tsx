@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -292,6 +292,14 @@ function ProfileDropdown({ user, data, onSignOut, n }: ProfileDropdownProps) {
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 
 export function Navbar() {
+  return (
+    <Suspense fallback={null}>
+      <NavbarInner />
+    </Suspense>
+  );
+}
+
+function NavbarInner() {
   const { lang, setLang, t } = useLang();
   const pathname = usePathname();
   const searchParams = useSearchParams();
