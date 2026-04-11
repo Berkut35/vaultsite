@@ -9,7 +9,8 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const pathnameHasLocale = pathname.startsWith('/en') || pathname.startsWith('/tr');
 
-  if (!pathnameHasLocale && pathname !== '/sitemap.xml' && pathname !== '/robots.txt') {
+  const isApiOrCallback = pathname.startsWith('/auth/') || pathname.startsWith('/api/');
+  if (!pathnameHasLocale && pathname !== '/sitemap.xml' && pathname !== '/robots.txt' && !isApiOrCallback) {
     const langCookie = request.cookies.get('vault-lang')?.value;
     const acceptLang = request.headers.get('accept-language') ?? '';
     const detected = langCookie === 'tr' || langCookie === 'en' 
