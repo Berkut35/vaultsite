@@ -68,6 +68,21 @@ const STATUS_INFO: Record<string, { dot: string; color: string; label: string; b
   unread:  { dot: '#64748B', color: '#94A3B8', label: 'Okunmadı', bg: 'rgba(148,163,184,0.08)' },
 };
 
+// ── OmniSearch Data ──────────────────────────────────────────────────────────
+const SEARCH_DOCS = [
+  { name: 'Bilişsel Gelişim Kuramı - Piaget', ext: 'PDF', tag: 'Psikoloji', match: { ad: true, icerik: true } },
+  { name: 'Eğitim Psikolojisi Notları',       ext: 'DOCX', tag: 'Eğitim',    match: { alinti: true } },
+  { name: 'Gelişim Psikolojisi Araştırması',   ext: 'PDF', tag: 'Psikoloji', match: { icerik: true } },
+  { name: 'Makine Öğrenmesi Giriş',           ext: 'PDF', tag: 'Bilişim',   match: null },
+  { name: 'Veri Analizi Yöntemleri',           ext: 'EPUB', tag: 'İstatistik', match: null },
+];
+
+const MATCH_BADGES: Record<string, { icon: string; label: string; color: string; bg: string; border: string }> = {
+  ad:     { icon: '✓', label: 'ad',     color: '#60A5FA', bg: 'rgba(96,165,250,0.1)',  border: 'rgba(96,165,250,0.22)' },
+  alinti: { icon: '💬', label: 'alıntı', color: '#A78BFA', bg: 'rgba(167,139,250,0.08)', border: 'rgba(167,139,250,0.22)' },
+  icerik: { icon: '📄', label: 'içerik', color: '#34D399', bg: 'rgba(52,211,153,0.08)', border: 'rgba(52,211,153,0.22)' },
+};
+
 function LibraryScene() {
   return (
     <motion.div
@@ -135,7 +150,157 @@ function LibraryScene() {
   );
 }
 
-// ── Scene 2: PDF Reader ───────────────────────────────────────────────────────
+// ── Scene 2: OmniSearch ──────────────────────────────────────────────────────
+function OmniSearchScene() {
+  const query = 'Piaget';
+  const [typed, setTyped] = useState('');
+  const [searching, setSearching] = useState(false);
+  const [filtered, setFiltered] = useState(false);
+  const [badges, setBadges] = useState(false);
+  const [preview, setPreview] = useState(false);
+
+  useEffect(() => {
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    query.split('').forEach((_, i) => {
+      timers.push(setTimeout(() => setTyped(query.slice(0, i + 1)), (400 + i * 80) / SPEED));
+    });
+    timers.push(setTimeout(() => setSearching(true), (400 + query.length * 80 + 240) / SPEED));
+    timers.push(setTimeout(() => setFiltered(true), 1500 / SPEED));
+    timers.push(setTimeout(() => setBadges(true), 2000 / SPEED));
+    timers.push(setTimeout(() => setPreview(true), 3000 / SPEED));
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  const visibleDocs = filtered ? SEARCH_DOCS.filter(d => d.match) : SEARCH_DOCS;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }}
+      transition={{ duration: 0.3 }}
+      style={{ display: 'flex', height: '100%', background: T.bg }}
+    >
+      <VaultSidebar />
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+        {/* Header with search */}
+        <div style={{ height: 48, borderBottom: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', padding: '0 18px', gap: 10, flexShrink: 0 }}>
+          <span style={{ fontSize: 14, fontWeight: 600, color: T.text }}>Library</span>
+          <span style={{ width: 1, height: 13, background: T.border }} />
+          {/* Search input */}
+          <div style={{ flex: 1, position: 'relative', maxWidth: 280 }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={T.sub} strokeWidth="2" style={{ position: 'absolute', left: 9, top: '50%', transform: 'translateY(-50%)', opacity: 0.45 }}>
+              <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/>
+            </svg>
+            <div style={{
+              width: '100%', padding: '5px 10px 5px 28px', borderRadius: 7, fontSize: 11.5, color: T.text,
+              background: 'rgba(255,255,255,0.04)', border: `1px solid ${typed ? T.accent + '66' : T.border}`,
+              transition: `border-color ${0.15 / SPEED}s`, minHeight: 26, display: 'flex', alignItems: 'center',
+            }}>
+              {typed}
+              {typed.length < query.length && (
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.5 / SPEED, repeat: Infinity }}
+                  style={{ display: 'inline-block', width: 1, height: 13, background: T.accent, marginLeft: 1 }}
+                />
+              )}
+              {!typed && <span style={{ color: T.sub, fontSize: 11 }}>Ara… (Ctrl+F)</span>}
+            </div>
+            {searching && typed === query && (
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: [0, 0.3, 0] }}
+                transition={{ duration: 0.4 / SPEED }}
+                style={{ position: 'absolute', inset: -2, borderRadius: 9, border: `1.5px solid ${T.accent}`, pointerEvents: 'none' }}
+              />
+            )}
+          </div>
+        </div>
+
+        {/* Results count */}
+        {filtered && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 / SPEED }}
+            style={{ padding: '6px 18px 0', fontSize: 10, color: T.sub }}
+          >
+            <span style={{ color: T.accent, fontWeight: 600 }}>3</span> sonuç — &quot;{query}&quot;
+          </motion.div>
+        )}
+
+        {/* Document grid */}
+        <div style={{ flex: 1, padding: 14, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 9, alignContent: 'start', overflow: 'hidden' }}>
+          <AnimatePresence mode="popLayout">
+            {visibleDocs.map((doc, i) => (
+              <motion.div
+                key={doc.name}
+                layout
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.92 }}
+                transition={{
+                  layout: { type: 'spring', stiffness: 300, damping: 30 },
+                  opacity: { duration: 0.24 / SPEED },
+                  scale: { duration: 0.24 / SPEED },
+                  delay: filtered ? 0 : (0.08 + i * 0.08) / SPEED,
+                }}
+                style={{
+                  background: T.surface, borderRadius: 9, padding: '9px 11px',
+                  border: `1px solid ${doc.match ? T.accent + '25' : T.border}`,
+                  borderLeft: `2.5px solid ${doc.match ? T.accent : '#64748B'}`,
+                }}
+              >
+                <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                  <div style={{ flexShrink: 0, width: 24, height: 32, borderRadius: 4, background: T.muted, border: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontSize: 7, fontWeight: 700, color: T.accent }}>{doc.ext}</span>
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 11, fontWeight: 600, color: T.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: 4 }}>{doc.name}</div>
+                    <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                      <span style={{ fontSize: 8.5, padding: '1px 5px', borderRadius: 5, background: `${T.accent}14`, border: `1px solid ${T.accent}30`, color: T.accent }}>{doc.tag}</span>
+                    </div>
+                    {badges && doc.match && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2 / SPEED, delay: (i * 0.12) / SPEED }}
+                        style={{ display: 'flex', gap: 4, marginTop: 5 }}
+                      >
+                        {Object.entries(doc.match).filter(([, v]) => v).map(([key]) => {
+                          const b = MATCH_BADGES[key];
+                          return (
+                            <span key={key} style={{ fontSize: 8, padding: '1px 5px', borderRadius: 4, background: b.bg, border: `1px solid ${b.border}`, color: b.color, display: 'flex', alignItems: 'center', gap: 2 }}>
+                              {b.icon} {b.label}
+                            </span>
+                          );
+                        })}
+                      </motion.div>
+                    )}
+                    {preview && doc.match && 'alinti' in doc.match && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        transition={{ duration: 0.28 / SPEED }}
+                        style={{ marginTop: 6, padding: '5px 7px', background: `${T.accent}08`, borderRadius: 5, border: `1px solid ${T.accent}18`, overflow: 'hidden' }}
+                      >
+                        <p style={{ fontSize: 8.5, color: T.text, lineHeight: 1.5, margin: 0, opacity: 0.85 }}>
+                          &quot;...Piaget&apos;nin bilişsel gelişim evreleri, çocukların düşünce yapılarının...&quot;
+                        </p>
+                        <span style={{ fontSize: 7.5, color: T.sub, marginTop: 2, display: 'block' }}>Sayfa 42 · Alıntı</span>
+                      </motion.div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ── Scene 3: PDF Reader ───────────────────────────────────────────────────────
 const LOREM_LINES = [
   'Bilimsel devrimler, birikimli bir ilerleme süreci değil, geçici kabul gören',
   'paradigmaların ani ve köklü dönüşümlerini içeren kesintili sıçramalardır.',
